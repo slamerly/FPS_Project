@@ -44,9 +44,9 @@ void Game::load()
 
 	achieve = new Achievements();
 
-	camera = new Camera();
+	/*camera = new Camera();
 	camera->setCharacter(chara);
-	camera->addObserver(achieve);
+	camera->addObserver(achieve);*/
 
 	Quaternion q(Vector3::unitY, -Maths::piOver2);
 	q = Quaternion::concatenate(q, Quaternion(Vector3::unitZ, Maths::pi + Maths::pi / 4.0f));

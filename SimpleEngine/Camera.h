@@ -1,18 +1,17 @@
 #pragma once
-#include "Actor.h"
-#include "Subject.h"
+#include "Component.h"
+#include "Matrix4.h"
 
-class Camera : public Actor, public Subject
+class Camera : public Component
 {
 public:
-	Camera();
+	Camera(class Actor* owner);
 
-	void updateActor(float deltaTime) override;
+	void update(float deltaTime) override;
 
 	// Spring Arm
 	float getPitchSpeed() const { return pitchSpeed; } // Orbiting & FPS
 
-	void setCharacter(class Character* characterP) { character = characterP; }
 	void setPitchSpeed(float newPitchSpeed); // Orbiting & FPS
 
 	// FPS camera
@@ -23,16 +22,16 @@ public:
 	void setMaxPitch(float pitch);
 	void setFPSCam(bool fpsCamP);
 
-private:
-	class MoveComponent* moveComponent;
+protected:
+	void setViewMatrix(const Matrix4& view);
 
+private:
 	// Offset
 	Vector3 offset;
 	// Up vector of camera
 	Vector3 up;
 
 	// Spring Arm
-	class Character* character;
 	float pitchSpeed; // Orbiting & FPS
 
 	// FPS camera

@@ -5,12 +5,13 @@
 #include "Game.h"
 #include "Cube.h"
 
-Character::Character() : Actor(), moveComponent(nullptr)
+Character::Character() : Actor(), moveComponent(nullptr), cameraComponent(nullptr)
 {
 	moveComponent = new MoveComponent(this);
+	cameraComponent = new Camera(this);
 
 	FPSModelRifle = new Actor();
-	FPSModelRifle->setScale(0.75f);
+	//FPSModelRifle->setScale(0.75f);
 	mc = new MeshComponent(FPSModelRifle);
 	mc->setMesh(Assets::getMesh("Mesh_Rifle"));
 }
@@ -33,14 +34,14 @@ void Character::actorInput(const struct InputState& inputState)
 	}
 	if (inputState.keyboard.getKeyValue(SDL_SCANCODE_A))
 	{
-		if (getGame().getCamera()->getFPScam())
+		if (cameraComponent->getFPScam())
 			strafeSpeed -= 350.0f;
 		else
 			angularSpeed -= sensitiveRota;
 	}
 	if (inputState.keyboard.getKeyValue(SDL_SCANCODE_D))
 	{
-		if(getGame().getCamera()->getFPScam())
+		if(cameraComponent->getFPScam())
 			strafeSpeed += 350.0f;
 		else
 			angularSpeed += sensitiveRota;
@@ -56,7 +57,7 @@ void Character::actorInput(const struct InputState& inputState)
 		getGame().getCamera()->setHorizontalDist(300.0f);*/
 
 	// FPS Camera
-	if (getGame().getCamera()->getFPScam())
+	if (cameraComponent->getFPScam())
 	{
 		Vector2 mousePosition = inputState.mouse.getPosition();
 		float x = mousePosition.x;
@@ -80,7 +81,7 @@ void Character::actorInput(const struct InputState& inputState)
 			pitchSpeed = y / maxMouseSpeed;
 			pitchSpeed *= maxPitchSpeed;
 		}
-		getGame().getCamera()->setPitchSpeed(pitchSpeed);
+		cameraComponent->setPitchSpeed(pitchSpeed);
 	}
 }
 
@@ -95,6 +96,6 @@ void Character::updateActor(float dt)
 	modelPosition.z += MODEL_OFFSET.z;
 	FPSModelRifle->setPosition(modelPosition);
 	Quaternion q = getRotation();
-	//q = Quaternion::concatenate(q, Quaternion(getRight(), camera->getPitch()));
+	q = Quaternion::concatenate(q, Quaternion(getRight(), cameraComponent->getPitch()));
 	FPSModelRifle->setRotation(q);
 }

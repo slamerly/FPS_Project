@@ -27,7 +27,10 @@ public:
 	Game& operator=(Game&&) = delete;
 
 private:
-	Game() : isRunning(true), isUpdatingActors(false), camera(nullptr), chara(nullptr) {}
+	Game() : isRunning(true), 
+		isUpdatingActors(false), 
+		//camera(nullptr), 
+		chara(nullptr) {}
 
 public:
 	bool initialize();
@@ -42,7 +45,7 @@ public:
 
 	// Game Specific
 	Character* getCharacter() { return chara; }
-	Camera* getCamera() { return camera; }
+	//Camera* getCamera() { return camera; }
 
 private:
 	void processInput();
@@ -59,7 +62,7 @@ private:
 	vector<Actor*> pendingActors;
 
 	// Game Specific
-	Camera* camera;
+	//Camera* camera;
 	Character* chara;
 	Achievements* achieve;
 };
