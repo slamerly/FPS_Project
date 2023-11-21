@@ -8,8 +8,11 @@
 Character::Character() : Actor(), moveComponent(nullptr)
 {
 	moveComponent = new MoveComponent(this);
-	mc = new MeshComponent(this);
-	mc->setMesh(Assets::getMesh("Mesh_Cube"));
+
+	FPSModelRifle = new Actor();
+	FPSModelRifle->setScale(0.75f);
+	mc = new MeshComponent(FPSModelRifle);
+	mc->setMesh(Assets::getMesh("Mesh_Rifle"));
 }
 
 void Character::actorInput(const struct InputState& inputState)
@@ -22,23 +25,23 @@ void Character::actorInput(const struct InputState& inputState)
 	// wasd movement
 	if (inputState.keyboard.getKeyValue(SDL_SCANCODE_W))
 	{
-		forwardSpeed += 300.0f;
+		forwardSpeed += 400.0f;
 	}
 	if (inputState.keyboard.getKeyValue(SDL_SCANCODE_S))
 	{
-		forwardSpeed -= 300.0f;
+		forwardSpeed -= 200.0f;
 	}
 	if (inputState.keyboard.getKeyValue(SDL_SCANCODE_A))
 	{
 		if (getGame().getCamera()->getFPScam())
-			strafeSpeed -= 250.0f;
+			strafeSpeed -= 350.0f;
 		else
 			angularSpeed -= sensitiveRota;
 	}
 	if (inputState.keyboard.getKeyValue(SDL_SCANCODE_D))
 	{
 		if(getGame().getCamera()->getFPScam())
-			strafeSpeed += 250.0f;
+			strafeSpeed += 350.0f;
 		else
 			angularSpeed += sensitiveRota;
 	}
@@ -47,10 +50,10 @@ void Character::actorInput(const struct InputState& inputState)
 	moveComponent->setAngularSpeed(angularSpeed);
 	moveComponent->setStrafeSpeed(strafeSpeed);
 
-	if (!Maths::nearZero(forwardSpeed))
+	/*if (!Maths::nearZero(forwardSpeed))
 		getGame().getCamera()->setHorizontalDist(400.0f);
 	else
-		getGame().getCamera()->setHorizontalDist(300.0f);
+		getGame().getCamera()->setHorizontalDist(300.0f);*/
 
 	// FPS Camera
 	if (getGame().getCamera()->getFPScam())
@@ -79,4 +82,19 @@ void Character::actorInput(const struct InputState& inputState)
 		}
 		getGame().getCamera()->setPitchSpeed(pitchSpeed);
 	}
+}
+
+void Character::updateActor(float dt)
+{
+	Actor::updateActor(dt);
+
+	// Update position and rotation of model relatively to position
+	Vector3 modelPosition = getPosition();
+	modelPosition += getForward() * MODEL_OFFSET.x;
+	modelPosition += getRight() * MODEL_OFFSET.y;
+	modelPosition.z += MODEL_OFFSET.z;
+	FPSModelRifle->setPosition(modelPosition);
+	Quaternion q = getRotation();
+	//q = Quaternion::concatenate(q, Quaternion(getRight(), camera->getPitch()));
+	FPSModelRifle->setRotation(q);
 }

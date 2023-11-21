@@ -41,7 +41,6 @@ public:
 	RendererOGL& getRenderer() { return renderer; }
 
 	// Game Specific
-	void changeCamera(int mode);
 	Character* getCharacter() { return chara; }
 	Camera* getCamera() { return camera; }
 
