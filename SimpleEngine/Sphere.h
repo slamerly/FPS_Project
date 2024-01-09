@@ -1,8 +1,11 @@
 #pragma once
-#include "Actor.h"
-class Sphere : public Actor
-{
-public:
-	Sphere();
-};
+#include "Vector3.h"
 
+struct Sphere
+{
+	Sphere(const Vector3& pCenter, float pRadius);
+	bool contains(const Vector3& point) const;
+
+	Vector3 center;
+	float radius;
+};

@@ -1,0 +1,32 @@
+#pragma once
+#include "Vector3.h"
+#include "LineSegment.h"
+#include <functional>
+#include <vector>
+
+class PhysicsSystem
+{
+public:
+	struct CollisionInfo
+	{
+		// Point of collision
+		Vector3 point;
+		// Normal at collision
+		Vector3 normal;
+		// Component collided with
+		class BoxCollisionComponent* box;
+		// Owning actor of component
+		class Actor* actor;
+	};
+
+	PhysicsSystem();
+
+	// Add/remove box components from world
+	void addBox(class BoxCollisionComponent* box);
+	void removeBox(class BoxCollisionComponent* box);
+	bool segmentCast(const LineSegment& l, CollisionInfo& outColl);
+
+private:
+	std::vector<class BoxCollisionComponent*> boxes;
+};
+

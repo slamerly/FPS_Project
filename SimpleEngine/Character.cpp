@@ -3,7 +3,7 @@
 #include "MeshComponent.h"
 #include "Assets.h"
 #include "Game.h"
-#include "Cube.h"
+#include "CubeActor.h"
 
 Character::Character() : Actor(), moveComponent(nullptr), cameraComponent(nullptr)
 {

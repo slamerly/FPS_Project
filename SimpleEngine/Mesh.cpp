@@ -51,3 +51,8 @@ void Mesh::setSpecularPower(float specularPowerP)
 {
 	specularPower = specularPowerP;
 }
+
+void Mesh::setBox(const AABB& boxP)
+{
+	box = boxP;
+}

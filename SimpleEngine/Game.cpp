@@ -3,9 +3,9 @@
 #include "Timer.h"
 #include "Assets.h"
 #include "MeshComponent.h"
-#include "Cube.h"
-#include "Sphere.h"
-#include "Plane.h"
+#include "CubeActor.h"
+#include "SphereActor.h"
+#include "PlaneActor.h"
 #include <algorithm>
 
 bool Game::initialize()
@@ -63,7 +63,7 @@ void Game::load()
 	{
 		for (int j = 0; j < 10; j++)
 		{
-			Plane* p = new Plane();
+			PlaneActor* p = new PlaneActor();
 			p->setPosition(Vector3(start + i * size, start + j * size, -100.0f));
 		}
 	}
@@ -72,11 +72,11 @@ void Game::load()
 	q = Quaternion(Vector3::unitX, Maths::piOver2);
 	for (int i = 0; i < 10; i++)
 	{
-		Plane* p = new Plane();
+		PlaneActor* p = new PlaneActor();
 		p->setPosition(Vector3(start + i * size, start - size, 0.0f));
 		p->setRotation(q);
 
-		p = new Plane();
+		p = new PlaneActor();
 		p->setPosition(Vector3(start + i * size, -start + size, 0.0f));
 		p->setRotation(q);
 	}
@@ -85,11 +85,11 @@ void Game::load()
 	q = Quaternion::concatenate(q, Quaternion(Vector3::unitZ, Maths::piOver2));
 	for (int i = 0; i < 10; i++)
 	{
-		Plane* p = new Plane();
+		PlaneActor* p = new PlaneActor();
 		p->setPosition(Vector3(start - size, start + i * size, 0.0f));
 		p->setRotation(q);
 
-		p = new Plane();
+		p = new PlaneActor();
 		p->setPosition(Vector3(-start + size, start + i * size, 0.0f));
 		p->setRotation(q);
 	}
@@ -118,6 +118,17 @@ void Game::load()
 	Actor* crosshairActor = new Actor();
 	crosshairActor->setScale(2.0f);
 	SpriteComponent* scCrosshair = new SpriteComponent(crosshairActor, Assets::getTexture("Crosshair"));
+}
+
+void Game::addPlane(PlaneActor* plane)
+{
+	planes.emplace_back(plane);
+}
+
+void Game::removePlane(PlaneActor* plane)
+{
+	auto iter = std::find(begin(planes), end(planes), plane);
+	planes.erase(iter);
 }
 
 void Game::processInput()
