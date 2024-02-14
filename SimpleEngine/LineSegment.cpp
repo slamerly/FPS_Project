@@ -1,6 +1,6 @@
 #include "LineSegment.h"
 
-LineSegment::LineSegment(const Vector3& pStart, const Vector3& pEnd) : start(pStart), end(pEnd)
+LineSegment::LineSegment(const Vector3& startP, const Vector3& endP) : start(startP), end(endP)
 {
 }
 

@@ -9,6 +9,8 @@ public:
 	void actorInput(const struct InputState& inputState) override;
 	void updateActor(float dt) override;
 
+	void shoot();
+
 private:
 	class MoveComponent* moveComponent;
 	class MeshComponent* mc;

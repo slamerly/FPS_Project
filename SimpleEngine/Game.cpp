@@ -7,6 +7,7 @@
 #include "SphereActor.h"
 #include "PlaneActor.h"
 #include <algorithm>
+#include "Enemy.h"
 
 bool Game::initialize()
 {
@@ -32,11 +33,13 @@ void Game::load()
 	Assets::loadTexture(renderer, "Res\\Textures\\Crosshair.png", "Crosshair");
 	Assets::loadTexture(renderer, "Res\\Textures\\Sphere.png", "Sphere");
 	Assets::loadTexture(renderer, "Res\\Textures\\Rifle.png", "Rifle");
+	Assets::loadTexture(renderer, "Res\\Textures\\Target.png", "Target");
 
 	Assets::loadMesh("Res\\Meshes\\Cube.gpmesh", "Mesh_Cube");
 	Assets::loadMesh("Res\\Meshes\\Plane.gpmesh", "Mesh_Plane");
 	Assets::loadMesh("Res\\Meshes\\Sphere.gpmesh", "Mesh_Sphere");
 	Assets::loadMesh("Res\\Meshes\\Rifle.gpmesh", "Mesh_Rifle");
+	Assets::loadMesh("Res\\Meshes\\Target.gpmesh", "Mesh_Target");
 
 	chara = new Character();
 	chara->setPosition(Vector3(200.0f, 0.0f, 0.0f));
@@ -118,6 +121,15 @@ void Game::load()
 	Actor* crosshairActor = new Actor();
 	crosshairActor->setScale(2.0f);
 	SpriteComponent* scCrosshair = new SpriteComponent(crosshairActor, Assets::getTexture("Crosshair"));
+
+	Enemy* t = new Enemy();
+	t->setPosition(Vector3(1450.0f, 0.0f, 100.0f));
+	t = new Enemy();
+	t->setPosition(Vector3(1450.0f, 0.0f, 400.0f));
+	t = new Enemy();
+	t->setPosition(Vector3(1450.0f, -500.0f, 200.0f));
+	t = new Enemy();
+	t->setPosition(Vector3(1450.0f, 500.0f, 200.0f));
 }
 
 void Game::addPlane(PlaneActor* plane)

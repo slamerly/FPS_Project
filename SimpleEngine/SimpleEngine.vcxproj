@@ -139,6 +139,7 @@
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="BackgroundSpriteComponent.cpp" />
     <ClCompile Include="BallActor.cpp" />
+    <ClCompile Include="BallMoveComponent.cpp" />
     <ClCompile Include="BoxCollisionComponent.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
@@ -146,6 +147,7 @@
     <ClCompile Include="Collisions.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="CubeActor.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="InputSystem.cpp" />
@@ -185,6 +187,7 @@
     <ClInclude Include="Assets.h" />
     <ClInclude Include="BackgroundSpriteComponent.h" />
     <ClInclude Include="BallActor.h" />
+    <ClInclude Include="BallMoveComponent.h" />
     <ClInclude Include="BoxCollisionComponent.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />
@@ -193,6 +196,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="CubeActor.h" />
     <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="InputSystem.h" />

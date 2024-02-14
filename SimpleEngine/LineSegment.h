@@ -3,7 +3,7 @@
 
 struct LineSegment
 {
-	LineSegment(const Vector3& pStart, const Vector3& pEnd);
+	LineSegment(const Vector3& startP, const Vector3& endP);
 
 	// Get point along segment where 0 <= t <= 1
 	Vector3 pointOnSegment(float t) const;
@@ -14,3 +14,4 @@ struct LineSegment
 	Vector3 start;
 	Vector3 end;
 };
+

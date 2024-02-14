@@ -4,7 +4,7 @@
 
 struct AABB
 {
-	AABB(const Vector3& pMin, const Vector3& pMax);
+	AABB(const Vector3& minP, const Vector3& maxP);
 
 	void updateMinMax(const Vector3& point);
 	void rotate(const Quaternion& q);
@@ -14,6 +14,5 @@ struct AABB
 
 	Vector3 min;
 	Vector3 max;
-
 };
 

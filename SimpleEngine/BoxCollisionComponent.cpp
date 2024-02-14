@@ -2,7 +2,7 @@
 #include "Actor.h"
 #include "Game.h"
 
-BoxCollisionComponent::BoxCollisionComponent(Actor* ownerP, int updateOrderP) : 
+BoxCollisionComponent::BoxCollisionComponent(Actor* ownerP, int updateOrderP) :
 	Component(ownerP, updateOrderP),
 	objectBox(Vector3::zero, Vector3::zero),
 	worldBox(Vector3::zero, Vector3::zero),

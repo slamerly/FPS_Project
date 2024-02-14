@@ -13,6 +13,7 @@ public:
 private:
 	class MoveComponent* ballMove;
 	class Actor* player;
+	//class BallMoveComponent* ballMove;
 	float lifetimeSpan;
 };
 

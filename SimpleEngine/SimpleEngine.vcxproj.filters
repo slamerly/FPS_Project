@@ -160,7 +160,13 @@
     <ClCompile Include="PhysicsSystem.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
-    <ClCompile Include="BallActor.cpp" />
+    <ClCompile Include="BallActor.cpp">
+      <Filter>GameSpecific</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>GameSpecific</Filter>
+    </ClCompile>
+    <ClCompile Include="BallMoveComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -301,7 +307,13 @@
     <ClInclude Include="PhysicsSystem.h">
       <Filter>Physics</Filter>
     </ClInclude>
-    <ClInclude Include="BallActor.h" />
+    <ClInclude Include="BallActor.h">
+      <Filter>GameSpecific</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>GameSpecific</Filter>
+    </ClInclude>
+    <ClInclude Include="BallMoveComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Res\Shaders\Sprite.frag">

@@ -14,6 +14,7 @@ public:
 
 	void onUpdateWorldTransform() override;
 
+
 private:
 	AABB objectBox;
 	AABB worldBox;

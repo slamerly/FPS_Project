@@ -1,6 +1,6 @@
 #include "Plane.h"
 
-Plane::Plane(const Vector3& pNormal, float pD) : normal(pNormal), d(pD)
+Plane::Plane(const Vector3& normalP, float dP) : normal(normalP), d(dP)
 {
 }
 

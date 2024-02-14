@@ -4,6 +4,8 @@
 #include <functional>
 #include <vector>
 
+using std::vector;
+
 class PhysicsSystem
 {
 public:
@@ -19,14 +21,17 @@ public:
 		class Actor* actor;
 	};
 
+
+public:
 	PhysicsSystem();
 
-	// Add/remove box components from world
 	void addBox(class BoxCollisionComponent* box);
 	void removeBox(class BoxCollisionComponent* box);
 	bool segmentCast(const LineSegment& l, CollisionInfo& outColl);
 
+
 private:
-	std::vector<class BoxCollisionComponent*> boxes;
+	vector<class BoxCollisionComponent*> boxes;
+
 };
 
