@@ -42,8 +42,8 @@ void Game::load()
 	Assets::loadMesh("Res\\Meshes\\Target.gpmesh", "Mesh_Target");
 
 	chara = new Character();
-	chara->setPosition(Vector3(200.0f, 0.0f, 0.0f));
-	chara->setScale(25.0f);
+	//chara->setPosition(Vector3(200.0f, 0.0f, 0.0f));
+	//chara->setScale(25.0f);
 
 	achieve = new Achievements();
 

@@ -11,6 +11,8 @@ public:
 
 	void shoot();
 
+	void fixCollisions();
+
 private:
 	class MoveComponent* moveComponent;
 	class MeshComponent* mc;
@@ -18,6 +20,7 @@ private:
 	class Actor* FPSModelRifle;
 
 	float sensitiveRota = Maths::twoPi;
+	class BoxCollisionComponent* boxComponent;
 };
 
 const Vector3 MODEL_OFFSET = Vector3(10.0f, 10.0f, 10.0f);

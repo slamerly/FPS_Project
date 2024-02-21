@@ -2,6 +2,9 @@
 #include "Collisions.h"
 #include "BoxCollisionComponent.h"
 #include <iostream>
+#include <algorithm>
+
+using namespace std;
 
 PhysicsSystem::PhysicsSystem()
 {
@@ -10,6 +13,7 @@ PhysicsSystem::PhysicsSystem()
 void PhysicsSystem::addBox(BoxCollisionComponent* box)
 {
 	boxes.emplace_back(box);
+	std::cout << boxes.size() << std::endl;
 }
 
 void PhysicsSystem::removeBox(BoxCollisionComponent* box)
