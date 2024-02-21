@@ -166,7 +166,9 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>GameSpecific</Filter>
     </ClCompile>
-    <ClCompile Include="BallMoveComponent.cpp" />
+    <ClCompile Include="BallMoveComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -313,7 +315,9 @@
     <ClInclude Include="Enemy.h">
       <Filter>GameSpecific</Filter>
     </ClInclude>
-    <ClInclude Include="BallMoveComponent.h" />
+    <ClInclude Include="BallMoveComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Res\Shaders\Sprite.frag">

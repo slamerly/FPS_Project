@@ -11,9 +11,9 @@ public:
 	void hitTarget();
 
 private:
-	class MoveComponent* ballMove;
+	//class MoveComponent* ballMove;
 	class Actor* player;
-	//class BallMoveComponent* ballMove;
+	class BallMoveComponent* ballMove;
 	float lifetimeSpan;
 };
 

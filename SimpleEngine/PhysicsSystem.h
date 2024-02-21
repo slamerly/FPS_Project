@@ -29,6 +29,10 @@ public:
 	void removeBox(class BoxCollisionComponent* box);
 	bool segmentCast(const LineSegment& l, CollisionInfo& outColl);
 
+	// Tests collisions using naive pairwise
+	void testPairwise(std::function<void(class Actor*, class Actor*)> f);
+	// Test collisions using sweep and prune
+	void testSweepAndPrune(std::function<void(class Actor*, class Actor*)> f);
 
 private:
 	vector<class BoxCollisionComponent*> boxes;

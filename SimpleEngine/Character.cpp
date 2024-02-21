@@ -112,7 +112,7 @@ void Character::updateActor(float dt)
 	q = Quaternion::concatenate(q, Quaternion(getRight(), cameraComponent->getPitch()));
 	FPSModelRifle->setRotation(q);
 
-	//fixCollisions();
+	fixCollisions();
 }
 
 void Character::shoot()
