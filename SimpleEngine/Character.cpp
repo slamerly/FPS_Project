@@ -22,6 +22,8 @@ Character::Character() : Actor(), moveComponent(nullptr), cameraComponent(nullpt
 	AABB collision(Vector3(-25.0f, -25.0f, -87.5f), Vector3(25.0f, 25.0f, 87.5f));
 	boxComponent->setObjectBox(collision);
 	boxComponent->setShouldRotate(false);
+
+	currentMagazine = magazine;
 }
 
 void Character::actorInput(const struct InputState& inputState)
@@ -109,29 +111,60 @@ void Character::updateActor(float dt)
 	modelPosition.z += MODEL_OFFSET.z;
 	FPSModelRifle->setPosition(modelPosition);
 	Quaternion q = getRotation();
-	q = Quaternion::concatenate(q, Quaternion(getRight(), cameraComponent->getPitch()));
+	//q = Quaternion::concatenate(q, Quaternion(getRight(), cameraComponent->getPitch()));
+
+	if (isReloading && currentAngle < (cameraComponent->getPitch() + finalAngle))
+	{
+		currentAngle += dt;
+		//q = Quaternion::concatenate(q, Quaternion(getRight(), cameraComponent->getPitch() + currentAngle));
+	}
+	else
+	{
+		isReloading = false;
+		//q = Quaternion::concatenate(q, Quaternion(getRight(), cameraComponent->getPitch() + currentAngle));
+	}
+
+	q = Quaternion::concatenate(q, Quaternion(getRight(), cameraComponent->getPitch() + currentAngle));
+
 	FPSModelRifle->setRotation(q);
+	//std::cout << "currentanfle : " << currentAngle << std::endl;
+	//std::cout << "pitch : " <<  cameraComponent->getPitch() << std::endl;
+	//std::cout << "pitch + currentAngle : " << cameraComponent->getPitch() + currentAngle << std::endl;
+	
+	//std::cout << FPSModelRifle->getRight().x << ", " << FPSModelRifle->getRight().y << ", " << FPSModelRifle->getRight().z << std::endl;
 
 	fixCollisions();
 }
 
 void Character::shoot()
 {
-	// Get start point (in center of screen on near plane)
-	Vector3 screenPoint(0.0f, 0.0f, 0.0f);
-	Vector3 start = getGame().getRenderer().unproject(screenPoint);
-	// Get end point (in center of screen, between near and far)
-	screenPoint.z = 0.9f;
-	Vector3 end = getGame().getRenderer().unproject(screenPoint);
-	// Get direction vector
-	Vector3 dir = end - start;
-	dir.normalize();
-	// Spawn a ball
-	BallActor* ball = new BallActor();
-	ball->setPlayer(this);
-	ball->setPosition(start + dir * 20.0f);
-	// Rotate the ball to face new direction
-	ball->rotateToNewForward(dir);
+	if (currentMagazine > 0)
+	{
+		// Get start point (in center of screen on near plane)
+		Vector3 screenPoint(0.0f, 0.0f, 0.0f);
+		Vector3 start = getGame().getRenderer().unproject(screenPoint);
+		// Get end point (in center of screen, between near and far)
+		screenPoint.z = 0.9f;
+		Vector3 end = getGame().getRenderer().unproject(screenPoint);
+		// Get direction vector
+		Vector3 dir = end - start;
+		dir.normalize();
+		// Spawn a ball
+		BallActor* ball = new BallActor();
+		ball->setPlayer(this);
+		ball->setPosition(start + dir * 20.0f);
+		// Rotate the ball to face new direction
+		ball->rotateToNewForward(dir);
+		currentMagazine--;
+	}
+	else
+	{
+		isReloading = true;
+	}
+}
+
+void Character::reload()
+{
 }
 
 void Character::fixCollisions()

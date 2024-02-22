@@ -10,6 +10,7 @@ public:
 	void updateActor(float dt) override;
 
 	void shoot();
+	void reload();
 
 	void fixCollisions();
 
@@ -21,6 +22,14 @@ private:
 
 	float sensitiveRota = Maths::twoPi;
 	class BoxCollisionComponent* boxComponent;
+
+	int magazine = 5;
+	int currentMagazine = 0;
+
+	//Reload
+	bool isReloading = false;
+	float finalAngle = 0.35f;
+	float currentAngle = 0.0f;
 };
 
 const Vector3 MODEL_OFFSET = Vector3(10.0f, 10.0f, 10.0f);
