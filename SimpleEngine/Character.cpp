@@ -23,7 +23,7 @@ Character::Character() : Actor(), moveComponent(nullptr), cameraComponent(nullpt
 	boxComponent->setObjectBox(collision);
 	boxComponent->setShouldRotate(false);
 
-	currentMagazine = magazine;
+	currentMagazine = magazineMax;
 }
 
 void Character::actorInput(const struct InputState& inputState)
@@ -98,6 +98,10 @@ void Character::actorInput(const struct InputState& inputState)
 	{
 		shoot();
 	}
+	if (inputState.keyboard.getKeyState(SDL_SCANCODE_R) == ButtonState::Pressed)
+	{
+		reload();
+	}
 }
 
 void Character::updateActor(float dt)
@@ -113,15 +117,30 @@ void Character::updateActor(float dt)
 	Quaternion q = getRotation();
 	//q = Quaternion::concatenate(q, Quaternion(getRight(), cameraComponent->getPitch()));
 
-	if (isReloading && currentAngle < (cameraComponent->getPitch() + finalAngle))
+
+	// === RELOADING ===
+	if (isReloading)
 	{
-		currentAngle += dt;
-		//q = Quaternion::concatenate(q, Quaternion(getRight(), cameraComponent->getPitch() + currentAngle));
-	}
-	else
-	{
-		isReloading = false;
-		//q = Quaternion::concatenate(q, Quaternion(getRight(), cameraComponent->getPitch() + currentAngle));
+		if (currentAngle < (cameraComponent->getPitch() + finalAngle) && decending)
+		{
+			currentAngle += dt;
+		}
+		else if (currentTimeReload < timeReload)
+		{
+			currentTimeReload += dt;
+			decending = false;
+		}
+		else if (currentAngle > cameraComponent->getPitch())
+		{
+			currentAngle -= dt;
+		}
+		else
+		{
+			currentAngle = 0.0f;
+			currentTimeReload = 0.0f;
+			currentMagazine = magazineMax;
+			isReloading = false;
+		}
 	}
 
 	q = Quaternion::concatenate(q, Quaternion(getRight(), cameraComponent->getPitch() + currentAngle));
@@ -157,14 +176,12 @@ void Character::shoot()
 		ball->rotateToNewForward(dir);
 		currentMagazine--;
 	}
-	else
-	{
-		isReloading = true;
-	}
 }
 
 void Character::reload()
 {
+	decending = true;
+	isReloading = true;
 }
 
 void Character::fixCollisions()
