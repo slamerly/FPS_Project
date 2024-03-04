@@ -141,6 +141,7 @@
     <ClCompile Include="BallActor.cpp" />
     <ClCompile Include="BallMoveComponent.cpp" />
     <ClCompile Include="BoxCollisionComponent.cpp" />
+    <ClCompile Include="BulletHole.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CircleCollisionComponent.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="BallActor.h" />
     <ClInclude Include="BallMoveComponent.h" />
     <ClInclude Include="BoxCollisionComponent.h" />
+    <ClInclude Include="BulletHole.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CircleCollisionComponent.h" />

@@ -57,6 +57,17 @@ void Character::actorInput(const struct InputState& inputState)
 			angularSpeed += sensitiveRota;
 	}
 
+	// Camera shake movement
+	if (inputState.keyboard.getKeyValue(SDL_SCANCODE_W) ||
+		inputState.keyboard.getKeyValue(SDL_SCANCODE_S) ||
+		inputState.keyboard.getKeyValue(SDL_SCANCODE_A) ||
+		inputState.keyboard.getKeyValue(SDL_SCANCODE_D))
+	{
+		cameraComponent->setShakeSpeed(0.18f);
+	}
+	else
+		cameraComponent->setShakeSpeed(0.09f);
+
 	moveComponent->setForwardSpeed(forwardSpeed);
 	moveComponent->setAngularSpeed(angularSpeed);
 	moveComponent->setStrafeSpeed(strafeSpeed);
@@ -161,9 +172,11 @@ void Character::shoot()
 	{
 		// Get start point (in center of screen on near plane)
 		Vector3 screenPoint(0.0f, 0.0f, 0.0f);
-		Vector3 start = getGame().getRenderer().unproject(screenPoint);
+		//Vector3 start = getGame().getRenderer().unproject(screenPoint);
+		Vector3 start = FPSModelRifle->getPosition() + FPSModelRifle->getForward() * 75;
 		// Get end point (in center of screen, between near and far)
 		screenPoint.z = 0.9f;
+		screenPoint = Vector3(17.5f, -35.0f, 0.9f);
 		Vector3 end = getGame().getRenderer().unproject(screenPoint);
 		// Get direction vector
 		Vector3 dir = end - start;

@@ -7,6 +7,7 @@
 #include "Game.h"
 #include "Enemy.h"
 #include "BallMoveComponent.h"
+#include "BulletHole.h"
 /*
 BallActor::BallActor() : Actor(), lifetimeSpan(2.0f), player(nullptr), ballMove(nullptr)
 {
@@ -98,6 +99,8 @@ void BallActor::setPlayer(Actor* player)
 
 void BallActor::hitTarget()
 {
+	BulletHole* impact = new BulletHole();
+	impact->setPosition(this->getPosition());
 	//std::cout << "hit" << std::endl;
 	//audio->playEvent("event:/Ding");
 }

@@ -169,6 +169,7 @@
     <ClCompile Include="BallMoveComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="BulletHole.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -318,6 +319,7 @@
     <ClInclude Include="BallMoveComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="BulletHole.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Res\Shaders\Sprite.frag">

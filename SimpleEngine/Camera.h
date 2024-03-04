@@ -22,6 +22,9 @@ public:
 	void setMaxPitch(float pitch);
 	void setFPSCam(bool fpsCamP);
 
+	// Movement Shake
+	void setShakeSpeed(float isActive);
+
 protected:
 	void setViewMatrix(const Matrix4& view);
 
@@ -38,4 +41,8 @@ private:
 	bool fpsCam = true;
 	float maxPitch;
 	float pitch;
+
+	// Movement Shake
+	float cpt = 0;
+	float shakeSpeed = 0.18f;
 };

@@ -8,6 +8,8 @@
 #include "PlaneActor.h"
 #include <algorithm>
 #include "Enemy.h"
+#include "BulletHole.h"
+#include "BulletHole.h"
 
 bool Game::initialize()
 {
@@ -34,6 +36,7 @@ void Game::load()
 	Assets::loadTexture(renderer, "Res\\Textures\\Sphere.png", "Sphere");
 	Assets::loadTexture(renderer, "Res\\Textures\\Rifle.png", "Rifle");
 	Assets::loadTexture(renderer, "Res\\Textures\\Target.png", "Target");
+	Assets::loadTexture(renderer, "Res\\Textures\\BulletHole.png", "BulletHole");
 
 	Assets::loadMesh("Res\\Meshes\\Cube.gpmesh", "Mesh_Cube");
 	Assets::loadMesh("Res\\Meshes\\Plane.gpmesh", "Mesh_Plane");
@@ -53,6 +56,9 @@ void Game::load()
 
 	Quaternion q(Vector3::unitY, -Maths::piOver2);
 	q = Quaternion::concatenate(q, Quaternion(Vector3::unitZ, Maths::pi + Maths::pi / 4.0f));
+
+	BulletHole* bh = new BulletHole();
+	bh->setPosition(Vector3(1.0f, 1.0f, 10.0f));
 
 
 	// ==============================
