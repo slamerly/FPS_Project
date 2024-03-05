@@ -6,8 +6,7 @@
 BulletHole::BulletHole() : Actor(), lifeTime(2.0f)
 {
 	MeshComponent* mc = new MeshComponent(this); 
-	mc->setMesh(Assets::getMesh("Mesh_Plane"));
-	SpriteComponent* sc = new SpriteComponent(this, Assets::getTexture("BulletHole"));
+	mc->setMesh(Assets::getMesh("Mesh_BulletHole"));
 	std::cout << "hit" << std::endl;
 	//setScale(100.0f);
 }

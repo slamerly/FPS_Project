@@ -35,4 +35,4 @@ private:
 	float currentTimeReload = 0.0f;
 };
 
-const Vector3 MODEL_OFFSET = Vector3(10.0f, 10.0f, 10.0f);
+const Vector3 MODEL_OFFSET = Vector3(20.0f, 30.0f, 10.0f);

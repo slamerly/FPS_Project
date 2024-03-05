@@ -37,12 +37,15 @@ void Game::load()
 	Assets::loadTexture(renderer, "Res\\Textures\\Rifle.png", "Rifle");
 	Assets::loadTexture(renderer, "Res\\Textures\\Target.png", "Target");
 	Assets::loadTexture(renderer, "Res\\Textures\\BulletHole.png", "BulletHole");
+	Assets::loadTexture(renderer, "Res\\Textures\\ak74.png", "ak74");
 
 	Assets::loadMesh("Res\\Meshes\\Cube.gpmesh", "Mesh_Cube");
 	Assets::loadMesh("Res\\Meshes\\Plane.gpmesh", "Mesh_Plane");
 	Assets::loadMesh("Res\\Meshes\\Sphere.gpmesh", "Mesh_Sphere");
 	Assets::loadMesh("Res\\Meshes\\Rifle.gpmesh", "Mesh_Rifle");
 	Assets::loadMesh("Res\\Meshes\\Target.gpmesh", "Mesh_Target");
+	Assets::loadMesh("Res\\Meshes\\BulletHole.gpmesh", "Mesh_BulletHole");
+	Assets::loadMesh("Res\\Meshes\\ak74.gpmesh", "Mesh_Ak74");
 
 	chara = new Character();
 	//chara->setPosition(Vector3(200.0f, 0.0f, 0.0f));
@@ -57,8 +60,8 @@ void Game::load()
 	Quaternion q(Vector3::unitY, -Maths::piOver2);
 	q = Quaternion::concatenate(q, Quaternion(Vector3::unitZ, Maths::pi + Maths::pi / 4.0f));
 
-	BulletHole* bh = new BulletHole();
-	bh->setPosition(Vector3(1.0f, 1.0f, 10.0f));
+	/*BulletHole* bh = new BulletHole();
+	bh->setPosition(Vector3(1.0f, 1.0f, 10.0f));*/
 
 
 	// ==============================

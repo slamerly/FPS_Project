@@ -16,7 +16,7 @@ Character::Character() : Actor(), moveComponent(nullptr), cameraComponent(nullpt
 	FPSModelRifle = new Actor();
 	FPSModelRifle->setScale(0.75f);
 	mc = new MeshComponent(FPSModelRifle);
-	mc->setMesh(Assets::getMesh("Mesh_Rifle"));
+	mc->setMesh(Assets::getMesh("Mesh_Ak74"));
 
 	boxComponent = new BoxCollisionComponent(this);
 	AABB collision(Vector3(-25.0f, -25.0f, -87.5f), Vector3(25.0f, 25.0f, 87.5f));
