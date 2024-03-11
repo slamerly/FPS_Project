@@ -101,6 +101,6 @@ void BallActor::hitTarget()
 {
 	/*BulletHole* impact = new BulletHole();
 	impact->setPosition(this->getPosition());*/
-	//std::cout << "hit" << std::endl;
+	std::cout << "hit" << std::endl;
 	//audio->playEvent("event:/Ding");
 }

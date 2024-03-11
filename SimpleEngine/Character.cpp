@@ -176,7 +176,7 @@ void Character::shoot()
 		Vector3 start = FPSModelRifle->getPosition() + FPSModelRifle->getForward() * 75;
 		// Get end point (in center of screen, between near and far)
 		screenPoint.z = 0.9f;
-		screenPoint = Vector3(17.5f, -35.0f, 0.9f);
+		screenPoint = Vector3(55.5f, -37.0f, 0.9f);
 		Vector3 end = getGame().getRenderer().unproject(screenPoint);
 		// Get direction vector
 		Vector3 dir = end - start;

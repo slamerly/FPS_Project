@@ -132,7 +132,7 @@ void Game::load()
 	SpriteComponent* scCrosshair = new SpriteComponent(crosshairActor, Assets::getTexture("Crosshair"));
 
 	Enemy* t = new Enemy();
-	t->setPosition(Vector3(1450.0f, 0.0f, 100.0f));
+	t->setPosition(Vector3(1450.0f, 0.0f, 50.0f));
 	t = new Enemy();
 	t->setPosition(Vector3(1450.0f, 0.0f, 400.0f));
 	t = new Enemy();
