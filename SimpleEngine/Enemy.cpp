@@ -5,34 +5,33 @@
 #include "LineSegment.h"
 #include "PhysicsSystem.h"
 #include "Game.h"
-#include "PlaneActor.h"
+#include "MoveComponent.h"
 
 Enemy::Enemy()
 {
 	setRotation(Quaternion(Vector3::unitZ, Maths::pi));
 
 	MeshComponent* mc = new MeshComponent(this);
-	mc->setMesh(Assets::getMesh("Mesh_Target"));
+	mc->setMesh(Assets::getMesh("Mesh_Lemon"));
 
 	BoxCollisionComponent* bc = new BoxCollisionComponent(this);
-	bc->setObjectBox(Assets::getMesh("Mesh_Target").getBox());
+	bc->setObjectBox(Assets::getMesh("Mesh_Lemon").getBox());
 
-	sphere = new SphereActor();
-	sphere->setScale(5.0f);
-	
+	//sphere = new SphereActor();
+	//sphere->setScale(5.0f);
+	moveComponent = new MoveComponent(this);
+	moveComponent->setForwardSpeed(400.0f);
 }
 
 void Enemy::updateActor(float dt)
 {
 	// Construct segment in direction of travel
-	const float segmentLength = 2000.0f;
-	Vector3 start = getPosition() + getForward() * 10.0f;
+	const float segmentLength = 200.0f;
+	Vector3 start = getPosition() + getForward() * 100.0f;
 	Vector3 dir = getForward();
 	Vector3 end = start + dir * segmentLength;
 
-	//std::cout << start.x << ", " << start.y << ", " << start.z << std::endl;
-
-	//sphere->setPosition(getPosition());
+	//sphere->setPosition(getPosition() +  getForward() * 100);
 
 	// Create line segment
 	LineSegment l(start, end);
@@ -42,24 +41,16 @@ void Enemy::updateActor(float dt)
 	// (Don't collide vs player)
 	if (getGame().getPhysicsSystem().segmentCast(l, info) && info.actor != this)
 	{
-		//// If we collided, reflect the ball about the normal
-		//dir = Vector3::reflect(dir, info.normal);
-		//rotateToNewForward(dir);
-		//// Did we hit a target?
-		//Enemy* target = dynamic_cast<Enemy*>(info.actor);
-		//if (target)
-		//{
-		//	//static_cast<BallActor*>(&owner)->hitTarget();
-		//}
-		//std::cout << info.point.x << ", "<< info.point.y << std::endl;
+		//Character* target = dynamic_cast<Character*>(info.actor);
 
-		Character* target = dynamic_cast<Character*>(info.actor);
-		if (target)
+		std::cout << info.distance << std::endl;
+		PlaneActor* mur = dynamic_cast<PlaneActor*>(info.actor);
+		if (mur)
 		{
-			std::cout << "player" << std::endl;
+			std::cout << "mur" << std::endl;
+			moveComponent->setForwardSpeed(0);
 		}
 
-		sphere->setPosition(info.point);
-		//std::cout << info.point.x << ", " << info.point.y << std::endl;
+		//sphere->setPosition(info.point);
 	}
 }

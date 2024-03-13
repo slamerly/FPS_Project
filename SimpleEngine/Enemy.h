@@ -10,6 +10,7 @@ public:
 	void updateActor(float dt) override;
 
 private:
-	SphereActor* sphere;
+	//SphereActor* sphere;
+	class MoveComponent* moveComponent;
 };
 

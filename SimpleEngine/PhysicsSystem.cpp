@@ -44,6 +44,15 @@ bool PhysicsSystem::segmentCast(const LineSegment& l, CollisionInfo& outColl)
 				outColl.normal = norm;
 				outColl.box = box;
 				outColl.actor = &box->getOwner();
+
+				// distance to point
+				float dx = outColl.point.x - l.start.x;
+				float dy = outColl.point.y - l.start.y;
+				float dz = outColl.point.z - l.start.z;
+				float dist = sqrt(dx * dx + dy * dy + dz * dz);
+
+				outColl.distance = dist;
+
 				collided = true;
 			}
 		}

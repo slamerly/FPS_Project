@@ -38,6 +38,7 @@ void Game::load()
 	Assets::loadTexture(renderer, "Res\\Textures\\Target.png", "Target");
 	Assets::loadTexture(renderer, "Res\\Textures\\BulletHole.png", "BulletHole");
 	Assets::loadTexture(renderer, "Res\\Textures\\ak74.png", "ak74");
+	Assets::loadTexture(renderer, "Res\\Textures\\lm.png", "lm");
 
 	Assets::loadMesh("Res\\Meshes\\Cube.gpmesh", "Mesh_Cube");
 	Assets::loadMesh("Res\\Meshes\\Plane.gpmesh", "Mesh_Plane");
@@ -46,6 +47,7 @@ void Game::load()
 	Assets::loadMesh("Res\\Meshes\\Target.gpmesh", "Mesh_Target");
 	Assets::loadMesh("Res\\Meshes\\BulletHole.gpmesh", "Mesh_BulletHole");
 	Assets::loadMesh("Res\\Meshes\\ak74.gpmesh", "Mesh_Ak74");
+	Assets::loadMesh("Res\\Meshes\\lemon.gpmesh", "Mesh_Lemon");
 
 	chara = new Character();
 	//chara->setPosition(Vector3(200.0f, 0.0f, 0.0f));
@@ -132,13 +134,13 @@ void Game::load()
 	SpriteComponent* scCrosshair = new SpriteComponent(crosshairActor, Assets::getTexture("Crosshair"));
 
 	Enemy* t = new Enemy();
-	t->setPosition(Vector3(1450.0f, 0.0f, 50.0f));
-	t = new Enemy();
+	t->setPosition(Vector3(1400.0f, 0.0f, 0.0f));
+	/*t = new Enemy();
 	t->setPosition(Vector3(1450.0f, 0.0f, 400.0f));
 	t = new Enemy();
 	t->setPosition(Vector3(1450.0f, -500.0f, 200.0f));
 	t = new Enemy();
-	t->setPosition(Vector3(1450.0f, 500.0f, 200.0f));
+	t->setPosition(Vector3(1450.0f, 500.0f, 200.0f));*/
 }
 
 void Game::addPlane(PlaneActor* plane)

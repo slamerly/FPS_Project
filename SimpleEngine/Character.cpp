@@ -105,7 +105,7 @@ void Character::actorInput(const struct InputState& inputState)
 		cameraComponent->setPitchSpeed(pitchSpeed);
 	}
 
-	if (inputState.mouse.getButtonState(1) == ButtonState::Pressed)
+	if (inputState.mouse.getButtonState(1) == ButtonState::Pressed || inputState.mouse.getButtonState(1) == ButtonState::Held)
 	{
 		shoot();
 	}
@@ -121,16 +121,34 @@ void Character::updateActor(float dt)
 
 	// Update position and rotation of model relatively to position
 	Vector3 modelPosition = getPosition();
-	modelPosition += getForward() * MODEL_OFFSET.x;
+	/*modelPosition += getForward() * MODEL_OFFSET.x;
+	modelPosition += getRight() * MODEL_OFFSET.y;
+	modelPosition.z += MODEL_OFFSET.z;
+	FPSModelRifle->setPosition(modelPosition);
+	Quaternion q = getRotation();*/
+	//q = Quaternion::concatenate(q, Quaternion(getRight(), cameraComponent->getPitch()));
+
+	// === Shoot Animation ===
+	if (isShooting)
+	{
+		modelPosition += getForward() * (MODEL_OFFSET.x + currentCooldownShoot * 50);
+		if (currentCooldownShoot > 0)
+			currentCooldownShoot -= dt;
+		else
+			isShooting = false;
+	}
+	else
+	{
+		modelPosition += getForward() * MODEL_OFFSET.x;
+		
+	}
 	modelPosition += getRight() * MODEL_OFFSET.y;
 	modelPosition.z += MODEL_OFFSET.z;
 	FPSModelRifle->setPosition(modelPosition);
 	Quaternion q = getRotation();
-	//q = Quaternion::concatenate(q, Quaternion(getRight(), cameraComponent->getPitch()));
-
 
 	// === RELOADING ===
-	if (isReloading)
+	if (isReloading && !isShooting)
 	{
 		if (currentAngle < (cameraComponent->getPitch() + finalAngle) && decending)
 		{
@@ -157,18 +175,13 @@ void Character::updateActor(float dt)
 	q = Quaternion::concatenate(q, Quaternion(getRight(), cameraComponent->getPitch() + currentAngle));
 
 	FPSModelRifle->setRotation(q);
-	//std::cout << "currentanfle : " << currentAngle << std::endl;
-	//std::cout << "pitch : " <<  cameraComponent->getPitch() << std::endl;
-	//std::cout << "pitch + currentAngle : " << cameraComponent->getPitch() + currentAngle << std::endl;
 	
-	//std::cout << FPSModelRifle->getRight().x << ", " << FPSModelRifle->getRight().y << ", " << FPSModelRifle->getRight().z << std::endl;
-
 	fixCollisions();
 }
 
 void Character::shoot()
 {
-	if (currentMagazine > 0)
+	if (currentMagazine > 0 && !isReloading && !isShooting)
 	{
 		// Get start point (in center of screen on near plane)
 		Vector3 screenPoint(0.0f, 0.0f, 0.0f);
@@ -187,6 +200,9 @@ void Character::shoot()
 		ball->setPosition(start + dir * 20.0f);
 		// Rotate the ball to face new direction
 		ball->rotateToNewForward(dir);
+
+		isShooting = true;
+		currentCooldownShoot = cooldownShoot;
 		currentMagazine--;
 	}
 }

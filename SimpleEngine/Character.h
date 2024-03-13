@@ -23,7 +23,7 @@ private:
 	float sensitiveRota = Maths::twoPi;
 	class BoxCollisionComponent* boxComponent;
 
-	int magazineMax = 5;
+	int magazineMax = 15;
 	int currentMagazine = 0;
 
 	//Reload
@@ -33,6 +33,10 @@ private:
 	float currentAngle = 0.0f;
 	float timeReload = 2.5f;
 	float currentTimeReload = 0.0f;
+
+	bool isShooting = false;
+	float cooldownShoot = 0.15f;
+	float currentCooldownShoot = 0.f;
 };
 
 const Vector3 MODEL_OFFSET = Vector3(20.0f, 30.0f, 10.0f);

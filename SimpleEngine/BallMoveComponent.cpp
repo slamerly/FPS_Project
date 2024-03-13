@@ -34,14 +34,15 @@ void BallMoveComponent::update(float dt)
 	if (owner.getGame().getPhysicsSystem().segmentCast(l, info) && info.actor != player)
 	{
 		// If we collided, reflect the ball about the normal
-		dir = Vector3::reflect(dir, info.normal);
-		owner.rotateToNewForward(dir);
+		//dir = Vector3::reflect(dir, info.normal);
+		//owner.rotateToNewForward(dir);
 		// Did we hit a target?
 		Enemy* target = dynamic_cast<Enemy*>(info.actor);
 		if (target)
 		{
 			static_cast<BallActor*>(&owner)->hitTarget();
 		}
+		owner.setState(Actor::ActorState::Dead);
 	}
 
 	// Base class update moves based on forward speed

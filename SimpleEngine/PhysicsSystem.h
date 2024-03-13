@@ -19,6 +19,8 @@ public:
 		class BoxCollisionComponent* box;
 		// Owning actor of component
 		class Actor* actor;
+
+		float distance;
 	};
 
 
