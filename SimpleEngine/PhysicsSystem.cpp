@@ -50,7 +50,6 @@ bool PhysicsSystem::segmentCast(const LineSegment& l, CollisionInfo& outColl)
 				float dy = outColl.point.y - l.start.y;
 				float dz = outColl.point.z - l.start.z;
 				float dist = sqrt(dx * dx + dy * dy + dz * dz);
-
 				outColl.distance = dist;
 
 				collided = true;
