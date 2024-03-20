@@ -6,6 +6,7 @@ class Enemy : public Actor
 {
 public:
 	Enemy();
+	~Enemy();
 
 	void updateActor(float dt) override;
 
@@ -17,11 +18,22 @@ private:
 
 	float fowardSpeed = 400.0f;
 
+	// Rotation
 	bool newDirection();
 	bool Rclear = false;
 	bool Lclear = false;
 
 	int sens = 0;
 	bool sensChoiced = false;
+
+	//Vector3 startR, startL, endR, endL;
+	//PhysicsSystem::CollisionInfo info, infoR, infoL, infoDetect;
+
+	// Detection system
+	bool detection();
+	Actor* actorDetected = nullptr;
+	float focusDistance = 1000;
+
+	float dist3D(Vector3 start, Vector3 end);
 };
 

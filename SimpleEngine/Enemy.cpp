@@ -17,18 +17,26 @@ Enemy::Enemy()
 	BoxCollisionComponent* bc = new BoxCollisionComponent(this);
 	bc->setObjectBox(Assets::getMesh("Mesh_Lemon").getBox());
 
-	//sphere = new SphereActor();
-	//sphere->setScale(5.0f);
+	sphere = new SphereActor();
+	sphere->setScale(5.0f);
 
-	sphereR = new SphereActor();
-	sphereR->setScale(5.0f);
-	sphereL = new SphereActor();
-	sphereL->setScale(5.0f);
+	//sphereR = new SphereActor();
+	//sphereR->setScale(5.0f);
+	//sphereL = new SphereActor();
+	//sphereL->setScale(5.0f);
 
 	moveComponent = new MoveComponent(this);
-	moveComponent->setForwardSpeed(fowardSpeed);
+	//moveComponent->setForwardSpeed(fowardSpeed);
+	moveComponent->setForwardSpeed(0);
 
 	srand(time(nullptr));
+
+	getGame().addMovableActor(this);
+}
+
+Enemy::~Enemy()
+{
+	getGame().removeMovableActor(this);
 }
 
 void Enemy::updateActor(float dt)
@@ -38,7 +46,12 @@ void Enemy::updateActor(float dt)
 	Vector3 dir = getForward();
 	Vector3 end = start + dir * segmentLength;
 
-	//sphere->setPosition(getPosition() +  getForward() * 100);
+	/*startR = getPosition() + getRight() * 100.0f;
+	endR = startR + getRight() * 400.0f + dir * (segmentLength * 0.75f);
+	startL = getPosition() + getRight() * -1.f * 100.0f;
+	endL = startL + getRight() * -400.0f + dir * (segmentLength * 0.75f);*/
+
+	//sphere->setPosition(end);
 
 	LineSegment l(start, end);
 
@@ -62,6 +75,7 @@ void Enemy::updateActor(float dt)
 			else
 				moveComponent->setAngularSpeed(1.f);
 		}
+		//sphere->setPosition(info.point);
 	}
 
 	if (sensChoiced)
@@ -74,6 +88,10 @@ void Enemy::updateActor(float dt)
 			Rclear = false;
 			Lclear = false;
 		}
+	}
+	else
+	{
+		detection();
 	}
 
 	//std::cout << newDirection() << std:: endl;
@@ -89,26 +107,22 @@ bool Enemy::newDirection()
 	Vector3 startL = getPosition() + getRight() * -1.f * 100.0f;
 	Vector3 endL = startL + getRight() * -200.0f + dir * segmentLength;
 
-	// Create line segment
 	LineSegment lR(startR, endR);
 	LineSegment lL(startL, endL);
 
-	// Test segment vs world
 	PhysicsSystem::CollisionInfo infoR;
 	if (getGame().getPhysicsSystem().segmentCast(lR, infoR) && infoR.actor != this)
 	{
 		PlaneActor* mur = dynamic_cast<PlaneActor*>(infoR.actor);
 		if (mur)
 		{
-			//std::cout << "R : mur" << std::endl;
 			Rclear = false;
 		}
 
-		sphereR->setPosition(infoR.point);
+		//sphereR->setPosition(infoR.point);
 	}
 	else
 	{
-		//std::cout << "R : nothing" << std::endl;
 		Rclear = true;
 	}
 
@@ -118,17 +132,70 @@ bool Enemy::newDirection()
 		PlaneActor* mur = dynamic_cast<PlaneActor*>(infoL.actor);
 		if (mur)
 		{
-			//std::cout << "L : mur" << std::endl;
 			Lclear = false;
 		}
 
-		sphereL->setPosition(infoL.point);
+		//sphereL->setPosition(infoL.point);
 	}
 	else
 	{
-		//std::cout << "L : nothing" << std::endl;
 		Lclear = true;
 	}
 
 	return Rclear && Lclear;
+}
+
+bool Enemy::detection()
+{
+	float distance = INFINITY;
+	for( auto movableActor : getGame().getMovableActors())
+	{
+		float currentDistance = dist3D(getPosition(), movableActor->getPosition());
+
+		if (currentDistance <= focusDistance && currentDistance < distance && movableActor != this)
+		{
+			distance = currentDistance;
+			actorDetected = movableActor;
+		}
+	}
+
+	if (actorDetected != nullptr && dist3D(getPosition(), actorDetected->getPosition()) > focusDistance)
+	{
+		actorDetected = nullptr;
+	}
+
+	if (actorDetected != nullptr)
+	{
+		Vector3 startDetect = getPosition() + getForward() * 100.0f;
+		Vector3 endDetect = actorDetected->getPosition();
+
+		LineSegment lDetect(startDetect, endDetect);
+
+		sphere->setPosition(endDetect);
+
+		PhysicsSystem::CollisionInfo infoDetect;
+
+		if (getGame().getPhysicsSystem().segmentCast(lDetect, infoDetect) && infoDetect.actor != this)
+		{
+			
+
+			Character* player = dynamic_cast<Character*>(infoDetect.actor);
+			if (player)
+			{
+				std::cout << "Detected" << std::endl;
+			}
+			sphere->setPosition(infoDetect.point);
+		}
+	}
+
+	return false;
+}
+
+float Enemy::dist3D(Vector3 start, Vector3 end)
+{
+	float dx = end.x - start.x;
+	float dy = end.y - start.y;
+	float dz = end.z - start.z;
+
+	return sqrt(dx * dx + dy * dy + dz * dz);
 }

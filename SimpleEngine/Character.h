@@ -5,6 +5,7 @@ class Character : public Actor
 {
 public:
 	Character();
+	~Character();
 
 	void actorInput(const struct InputState& inputState) override;
 	void updateActor(float dt) override;

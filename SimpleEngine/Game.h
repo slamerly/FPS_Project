@@ -52,6 +52,9 @@ public:
 	void addPlane(class PlaneActor* plane);
 	void removePlane(class PlaneActor* plane);
 	vector<PlaneActor*>& getPlanes() { return planes; }
+	void addMovableActor(class Actor* actor);
+	void removeMovableActor(class Actor* actor);
+	vector<Actor*>& getMovableActors() { return movableActors; }
 
 private:
 	void processInput();
@@ -73,5 +76,6 @@ private:
 	Character* chara;
 	Achievements* achieve;
 	vector<PlaneActor*> planes;
+	vector<Actor*> movableActors;
 };
 

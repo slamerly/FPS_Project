@@ -24,6 +24,13 @@ Character::Character() : Actor(), moveComponent(nullptr), cameraComponent(nullpt
 	boxComponent->setShouldRotate(false);
 
 	currentMagazine = magazineMax;
+
+	getGame().addMovableActor(this);
+}
+
+Character::~Character()
+{
+	getGame().removeMovableActor(this);
 }
 
 void Character::actorInput(const struct InputState& inputState)

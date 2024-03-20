@@ -154,6 +154,17 @@ void Game::removePlane(PlaneActor* plane)
 	planes.erase(iter);
 }
 
+void Game::addMovableActor(Actor* actor)
+{
+	movableActors.emplace_back(actor);
+}
+
+void Game::removeMovableActor(Actor* actor)
+{
+	auto iter = std::find(begin(movableActors), end(movableActors), actor);
+	movableActors.erase(iter);
+}
+
 void Game::processInput()
 {
 	inputSystem.preUpdate();
