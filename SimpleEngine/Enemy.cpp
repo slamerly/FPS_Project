@@ -46,6 +46,9 @@ void Enemy::updateActor(float dt)
 	Vector3 dir = getForward();
 	Vector3 end = start + dir * segmentLength;
 
+	RBorder = start + getRight() * 400.0f + dir * (segmentLength * 0.75f);
+	LBorder = start + getRight() * -400.0f + dir * (segmentLength * 0.75f);
+
 	/*startR = getPosition() + getRight() * 100.0f;
 	endR = startR + getRight() * 400.0f + dir * (segmentLength * 0.75f);
 	startL = getPosition() + getRight() * -1.f * 100.0f;
@@ -152,7 +155,10 @@ bool Enemy::detection()
 	{
 		float currentDistance = dist3D(getPosition(), movableActor->getPosition());
 
-		if (currentDistance <= focusDistance && currentDistance < distance && movableActor != this)
+		//if (currentDistance <= focusDistance && currentDistance < distance && movableActor != this)
+		if (currentDistance <= focusDistance && 
+			currentDistance < distance && 
+			movableActor != this)
 		{
 			distance = currentDistance;
 			actorDetected = movableActor;
@@ -177,14 +183,16 @@ bool Enemy::detection()
 
 		if (getGame().getPhysicsSystem().segmentCast(lDetect, infoDetect) && infoDetect.actor != this)
 		{
-			
-
-			Character* player = dynamic_cast<Character*>(infoDetect.actor);
-			if (player)
+			if (actorDetected->getPosition().x > RBorder.x && actorDetected->getPosition().y < RBorder.y &&
+				actorDetected->getPosition().x > LBorder.x && actorDetected->getPosition().y > LBorder.y)
 			{
-				std::cout << "Detected" << std::endl;
+				Character* player = dynamic_cast<Character*>(infoDetect.actor);
+				if (player)
+				{
+					std::cout << "Detected" << std::endl;
+				}
+				sphere->setPosition(infoDetect.point);
 			}
-			sphere->setPosition(infoDetect.point);
 		}
 	}
 

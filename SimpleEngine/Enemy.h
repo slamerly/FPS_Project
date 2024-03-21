@@ -33,6 +33,7 @@ private:
 	bool detection();
 	Actor* actorDetected = nullptr;
 	float focusDistance = 1000;
+	Vector3 RBorder, LBorder;
 
 	float dist3D(Vector3 start, Vector3 end);
 };
