@@ -17,8 +17,8 @@ Enemy::Enemy()
 	BoxCollisionComponent* bc = new BoxCollisionComponent(this);
 	bc->setObjectBox(Assets::getMesh("Mesh_Lemon").getBox());
 
-	sphere = new SphereActor();
-	sphere->setScale(5.0f);
+	//sphere = new SphereActor();
+	//sphere->setScale(5.0f);
 
 	//sphereR = new SphereActor();
 	//sphereR->setScale(5.0f);
@@ -46,8 +46,8 @@ void Enemy::updateActor(float dt)
 	Vector3 dir = getForward();
 	Vector3 end = start + dir * segmentLength;
 
-	RBorder = start + getRight() * 400.0f + dir * (segmentLength * 0.75f);
-	LBorder = start + getRight() * -400.0f + dir * (segmentLength * 0.75f);
+	RBorder = start + getRight() * 500.0f + dir * (segmentLength * 0.5f);
+	LBorder = start + getRight() * -500.0f + dir * (segmentLength * 0.5f);
 
 	/*startR = getPosition() + getRight() * 100.0f;
 	endR = startR + getRight() * 400.0f + dir * (segmentLength * 0.75f);
@@ -150,6 +150,8 @@ bool Enemy::newDirection()
 
 bool Enemy::detection()
 {
+	distMtBMax = dist3D(getPosition(), RBorder);
+	distBtBMax = dist3D(RBorder, LBorder);
 	float distance = INFINITY;
 	for( auto movableActor : getGame().getMovableActors())
 	{
@@ -177,21 +179,27 @@ bool Enemy::detection()
 
 		LineSegment lDetect(startDetect, endDetect);
 
-		sphere->setPosition(endDetect);
+		//sphere->setPosition(endDetect);
 
 		PhysicsSystem::CollisionInfo infoDetect;
 
 		if (getGame().getPhysicsSystem().segmentCast(lDetect, infoDetect) && infoDetect.actor != this)
 		{
-			if (actorDetected->getPosition().x > RBorder.x && actorDetected->getPosition().y < RBorder.y &&
-				actorDetected->getPosition().x > LBorder.x && actorDetected->getPosition().y > LBorder.y)
+			float distRBtP = dist3D(RBorder, actorDetected->getPosition());
+			float distLBtP = dist3D(LBorder, actorDetected->getPosition());
+			float distMtP = dist3D(getPosition(), actorDetected->getPosition());
+
+			if (distRBtP < distBtBMax && distLBtP < distBtBMax && distMtP < distMtBMax)
 			{
 				Character* player = dynamic_cast<Character*>(infoDetect.actor);
 				if (player)
 				{
-					std::cout << "Detected" << std::endl;
+					std::cout << "Detected: " << 
+						actorDetected->getPosition().x << ", " << 
+						actorDetected->getPosition().y << ", " <<
+						actorDetected->getPosition().z << std::endl;
 				}
-				sphere->setPosition(infoDetect.point);
+				//sphere->setPosition(infoDetect.point);
 			}
 		}
 	}

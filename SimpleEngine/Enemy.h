@@ -34,6 +34,7 @@ private:
 	Actor* actorDetected = nullptr;
 	float focusDistance = 1000;
 	Vector3 RBorder, LBorder;
+	float distMtBMax, distBtBMax;
 
 	float dist3D(Vector3 start, Vector3 end);
 };
