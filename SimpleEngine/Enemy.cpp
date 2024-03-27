@@ -3,9 +3,9 @@
 #include "Assets.h"
 #include "BoxCollisionComponent.h"
 #include "LineSegment.h"
-#include "PhysicsSystem.h"
 #include "Game.h"
 #include "MoveComponent.h"
+#include "BallActor.h"
 
 Enemy::Enemy()
 {
@@ -26,8 +26,8 @@ Enemy::Enemy()
 	//sphereL->setScale(5.0f);
 
 	moveComponent = new MoveComponent(this);
-	//moveComponent->setForwardSpeed(fowardSpeed);
-	moveComponent->setForwardSpeed(0);
+	moveComponent->setForwardSpeed(fowardSpeed);
+	//moveComponent->setForwardSpeed(0);
 
 	srand(time(nullptr));
 
@@ -39,20 +39,19 @@ Enemy::~Enemy()
 	getGame().removeMovableActor(this);
 }
 
+void Enemy::setLife(int dm)
+{
+}
+
 void Enemy::updateActor(float dt)
 {
-	const float segmentLength = 1000.0f;
+	currentCooldownShoot -= dt;
 	Vector3 start = getPosition() + getForward() * 100.0f;
 	Vector3 dir = getForward();
 	Vector3 end = start + dir * segmentLength;
 
 	RBorder = start + getRight() * 500.0f + dir * (segmentLength * 0.5f);
 	LBorder = start + getRight() * -500.0f + dir * (segmentLength * 0.5f);
-
-	/*startR = getPosition() + getRight() * 100.0f;
-	endR = startR + getRight() * 400.0f + dir * (segmentLength * 0.75f);
-	startL = getPosition() + getRight() * -1.f * 100.0f;
-	endL = startL + getRight() * -400.0f + dir * (segmentLength * 0.75f);*/
 
 	//sphere->setPosition(end);
 
@@ -96,7 +95,6 @@ void Enemy::updateActor(float dt)
 	{
 		detection();
 	}
-
 	//std::cout << newDirection() << std:: endl;
 }
 
@@ -181,8 +179,6 @@ bool Enemy::detection()
 
 		//sphere->setPosition(endDetect);
 
-		PhysicsSystem::CollisionInfo infoDetect;
-
 		if (getGame().getPhysicsSystem().segmentCast(lDetect, infoDetect) && infoDetect.actor != this)
 		{
 			float distRBtP = dist3D(RBorder, actorDetected->getPosition());
@@ -191,20 +187,99 @@ bool Enemy::detection()
 
 			if (distRBtP < distBtBMax && distLBtP < distBtBMax && distMtP < distMtBMax)
 			{
+
+				// Player
 				Character* player = dynamic_cast<Character*>(infoDetect.actor);
 				if (player)
 				{
-					std::cout << "Detected: " << 
+					fight(distRBtP, distLBtP, distMtP);
+					/*std::cout << "Detected: " << 
 						actorDetected->getPosition().x << ", " << 
 						actorDetected->getPosition().y << ", " <<
-						actorDetected->getPosition().z << std::endl;
+						actorDetected->getPosition().z << std::endl;*/
 				}
 				//sphere->setPosition(infoDetect.point);
+			}
+			else
+			{
+				moveComponent->setAngularSpeed(0);
+				moveComponent->setForwardSpeed(fowardSpeed);
+			}
+
+			// Enemy
+			Enemy* enemy = dynamic_cast<Enemy*>(infoDetect.actor);
+			if (enemy)
+			{
+				dodge(infoDetect.distance);
+				std::cout << infoDetect.distance << std::endl;
 			}
 		}
 	}
 
 	return false;
+}
+
+void Enemy::dodge(float distBA)
+{
+	if (distBA < 500)
+	{
+		moveComponent->setStrafeSpeed(100.0f);
+	}
+	else
+	{
+		moveComponent->setStrafeSpeed(0);
+	}
+}
+
+void Enemy::fight(float distR, float distL, float distM)
+{
+	if (distM > distMtBMax * 0.75f)
+	{
+		moveComponent->setForwardSpeed(fowardSpeed);
+	}
+	/*else if (distM < distMMax * 0.5f)
+	{
+		moveComponent->setForwardSpeed(-fowardSpeed/2);
+	}*/
+	else
+	{
+		moveComponent->setForwardSpeed(0);
+	}
+
+
+	if (distL > distR - 10 && distL < distR + 10)
+	{
+		moveComponent->setAngularSpeed(0);
+		if (currentCooldownShoot <= 0)
+		{
+			shoot(infoDetect);
+		}
+	}
+	else if (distL > distR)
+	{
+		moveComponent->setAngularSpeed(1);
+	}
+	else if (distL < distR)
+	{
+		moveComponent->setAngularSpeed(-1);
+	}
+}
+
+void Enemy::shoot(PhysicsSystem::CollisionInfo targetInfo)
+{
+	Vector3 start = getPosition() + getForward() * 100.0f + Vector3(0, 0, 35);
+	Vector3 end = targetInfo.point;
+	// Get direction vector
+	Vector3 dir = end - start;
+	dir.normalize();
+	// Spawn a ball
+	BallActor* ball = new BallActor();
+	ball->setPlayer(this);
+	ball->setPosition(start + dir * 20.0f);
+	// Rotate the ball to face new direction
+	ball->rotateToNewForward(dir);
+
+	currentCooldownShoot = cooldownShoot;
 }
 
 float Enemy::dist3D(Vector3 start, Vector3 end)

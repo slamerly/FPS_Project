@@ -134,13 +134,10 @@ void Game::load()
 	SpriteComponent* scCrosshair = new SpriteComponent(crosshairActor, Assets::getTexture("Crosshair"));
 
 	Enemy* t = new Enemy();
-	t->setPosition(Vector3(140.0f, 0.0f, 0.0f));
+	t->setPosition(Vector3(1400.0f, 0.0f, 0.0f));
 	/*t = new Enemy();
-	t->setPosition(Vector3(1450.0f, 0.0f, 400.0f));
-	t = new Enemy();
-	t->setPosition(Vector3(1450.0f, -500.0f, 200.0f));
-	t = new Enemy();
-	t->setPosition(Vector3(1450.0f, 500.0f, 200.0f));*/
+	t->setPosition(Vector3(-1400.0f, 0.0f, 0.0f));
+	t->setRotation(Quaternion(Vector3::unitZ, Maths::twoPi));*/
 }
 
 void Game::addPlane(PlaneActor* plane)

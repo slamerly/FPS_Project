@@ -77,6 +77,8 @@ BallActor::BallActor() : Actor(), lifetimeSpan(2.0f), ballMove(nullptr)
 	MeshComponent* mc = new MeshComponent(this);
 	mc->setMesh(Assets::getMesh("Mesh_Sphere"));
 	//audio = new AudioComponent(this);
+
+	setScale(0.5f);
 	ballMove = new BallMoveComponent(this);
 	ballMove->setForwardSpeed(1500.0f);
 }
