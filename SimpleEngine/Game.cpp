@@ -8,8 +8,6 @@
 #include "PlaneActor.h"
 #include <algorithm>
 #include "Enemy.h"
-#include "BulletHole.h"
-#include "BulletHole.h"
 
 bool Game::initialize()
 {
@@ -34,18 +32,12 @@ void Game::load()
 	Assets::loadTexture(renderer, "Res\\Textures\\Radar.png", "Radar");
 	Assets::loadTexture(renderer, "Res\\Textures\\Crosshair.png", "Crosshair");
 	Assets::loadTexture(renderer, "Res\\Textures\\Sphere.png", "Sphere");
-	Assets::loadTexture(renderer, "Res\\Textures\\Rifle.png", "Rifle");
-	Assets::loadTexture(renderer, "Res\\Textures\\Target.png", "Target");
-	Assets::loadTexture(renderer, "Res\\Textures\\BulletHole.png", "BulletHole");
 	Assets::loadTexture(renderer, "Res\\Textures\\ak74.png", "ak74");
 	Assets::loadTexture(renderer, "Res\\Textures\\lm.png", "lm");
 
 	Assets::loadMesh("Res\\Meshes\\Cube.gpmesh", "Mesh_Cube");
 	Assets::loadMesh("Res\\Meshes\\Plane.gpmesh", "Mesh_Plane");
 	Assets::loadMesh("Res\\Meshes\\Sphere.gpmesh", "Mesh_Sphere");
-	Assets::loadMesh("Res\\Meshes\\Rifle.gpmesh", "Mesh_Rifle");
-	Assets::loadMesh("Res\\Meshes\\Target.gpmesh", "Mesh_Target");
-	Assets::loadMesh("Res\\Meshes\\BulletHole.gpmesh", "Mesh_BulletHole");
 	Assets::loadMesh("Res\\Meshes\\ak74.gpmesh", "Mesh_Ak74");
 	Assets::loadMesh("Res\\Meshes\\lemon.gpmesh", "Mesh_Lemon");
 
@@ -133,6 +125,7 @@ void Game::load()
 	crosshairActor->setScale(2.0f);
 	SpriteComponent* scCrosshair = new SpriteComponent(crosshairActor, Assets::getTexture("Crosshair"));
 
+	// Enemies
 	Enemy* t = new Enemy();
 	t->setPosition(Vector3(1400.0f, 0.0f, 0.0f));
 	/*t = new Enemy();

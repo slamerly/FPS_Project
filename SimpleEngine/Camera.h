@@ -25,6 +25,8 @@ public:
 	// Movement Shake
 	void setShakeSpeed(float isActive);
 
+	Vector3 getPosition() { return cameraPos; }
+
 protected:
 	void setViewMatrix(const Matrix4& view);
 
@@ -45,4 +47,6 @@ private:
 	// Movement Shake
 	float cpt = 0;
 	float shakeSpeed = 0.18f;
+
+	Vector3 cameraPos;
 };

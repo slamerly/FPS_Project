@@ -79,11 +79,6 @@ void Character::actorInput(const struct InputState& inputState)
 	moveComponent->setAngularSpeed(angularSpeed);
 	moveComponent->setStrafeSpeed(strafeSpeed);
 
-	/*if (!Maths::nearZero(forwardSpeed))
-		getGame().getCamera()->setHorizontalDist(400.0f);
-	else
-		getGame().getCamera()->setHorizontalDist(300.0f);*/
-
 	// FPS Camera
 	if (cameraComponent->getFPScam())
 	{
@@ -190,6 +185,28 @@ void Character::shoot()
 {
 	if (currentMagazine > 0 && !isReloading && !isShooting)
 	{
+		/*
+		Vector3 startWeapon = FPSModelRifle->getPosition() + FPSModelRifle->getForward() * 75;
+		Vector3 start = getPosition() + getForward() * 100.0f;
+		Vector3 end = cameraComponent->getPosition() + FPSModelRifle->getForward() * 20000;
+
+		LineSegment l(start, end);
+		PhysicsSystem::CollisionInfo info;
+
+		if (getGame().getPhysicsSystem().segmentCast(l, info) && info.actor != this)
+		{
+			Vector3 dir = (info.point + Vector3(0, 0, 25)) - startWeapon;
+			dir.normalize();
+			std::cout << dir.x << ", " << dir.y << ", " << dir.z << std::endl;
+			// Spawn a ball
+			BallActor* ball = new BallActor(ballDamage);
+			ball->setPlayer(this);
+			ball->setPosition(startWeapon + dir * 20.0f);
+			// Rotate the ball to face new direction
+			ball->rotateToNewForward(dir);
+		}
+		*/
+		
 		// Get start point (in center of screen on near plane)
 		Vector3 screenPoint(0.0f, 0.0f, 0.0f);
 		//Vector3 start = getGame().getRenderer().unproject(screenPoint);
@@ -202,11 +219,12 @@ void Character::shoot()
 		Vector3 dir = end - start;
 		dir.normalize();
 		// Spawn a ball
-		BallActor* ball = new BallActor();
+		BallActor* ball = new BallActor(ballDamage);
 		ball->setPlayer(this);
 		ball->setPosition(start + dir * 20.0f);
 		// Rotate the ball to face new direction
 		ball->rotateToNewForward(dir);
+		
 
 		isShooting = true;
 		currentCooldownShoot = cooldownShoot;

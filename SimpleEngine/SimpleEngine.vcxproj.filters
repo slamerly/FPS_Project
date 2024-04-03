@@ -169,9 +169,6 @@
     <ClCompile Include="BallMoveComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="BulletHole.cpp">
-      <Filter>GameSpecific</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -320,9 +317,6 @@
     </ClInclude>
     <ClInclude Include="BallMoveComponent.h">
       <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="BulletHole.h">
-      <Filter>GameSpecific</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

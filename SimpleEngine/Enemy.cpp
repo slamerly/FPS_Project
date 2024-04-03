@@ -41,6 +41,11 @@ Enemy::~Enemy()
 
 void Enemy::setLife(int dm)
 {
+	life -= dm;
+	if (life <= 0)
+	{
+		setState(ActorState::Dead);
+	}
 }
 
 void Enemy::updateActor(float dt)
@@ -273,7 +278,7 @@ void Enemy::shoot(PhysicsSystem::CollisionInfo targetInfo)
 	Vector3 dir = end - start;
 	dir.normalize();
 	// Spawn a ball
-	BallActor* ball = new BallActor();
+	BallActor* ball = new BallActor(0);
 	ball->setPlayer(this);
 	ball->setPosition(start + dir * 20.0f);
 	// Rotate the ball to face new direction

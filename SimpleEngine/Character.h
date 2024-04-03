@@ -38,6 +38,7 @@ private:
 	bool isShooting = false;
 	float cooldownShoot = 0.15f;
 	float currentCooldownShoot = 0.f;
+	float ballDamage = 5;
 };
 
 const Vector3 MODEL_OFFSET = Vector3(20.0f, 30.0f, 10.0f);

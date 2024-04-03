@@ -40,7 +40,7 @@ void BallMoveComponent::update(float dt)
 		Enemy* target = dynamic_cast<Enemy*>(info.actor);
 		if (target)
 		{
-			static_cast<BallActor*>(&owner)->hitTarget();
+			static_cast<BallActor*>(&owner)->hitTarget(target);
 		}
 		owner.setState(Actor::ActorState::Dead);
 	}

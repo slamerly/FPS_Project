@@ -1,19 +1,20 @@
 #pragma once
 #include "Actor.h"
+#include "Enemy.h"
 
 class BallActor : public Actor
 {
 public:
-	BallActor();
+	BallActor(float pDmg);
 
 	void updateActor(float dt) override;
 	void setPlayer(Actor* pPlayer);
-	void hitTarget();
+	void hitTarget(Enemy* target);
 
 private:
-	//class MoveComponent* ballMove;
 	class Actor* player;
 	class BallMoveComponent* ballMove;
 	float lifetimeSpan;
+	float dmg;
 };
 

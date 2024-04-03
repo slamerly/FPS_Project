@@ -19,7 +19,7 @@ void Camera::update(float deltaTime)
 	cpt+= shakeSpeed;
 
 	// --- Default values ---
-	Vector3 cameraPos = owner.getPosition();
+	cameraPos = owner.getPosition();
 	Vector3 target = owner.getPosition();
 
 	// --- FPS camera ---

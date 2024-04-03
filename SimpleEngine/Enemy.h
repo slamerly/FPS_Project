@@ -9,6 +9,7 @@ public:
 	Enemy();
 	~Enemy();
 
+	float getLife() { return life; }
 	void setLife(int dm);
 
 	void updateActor(float dt) override;
@@ -50,7 +51,7 @@ private:
 	float currentCooldownShoot = 0.0f;
 
 	// Life
-	int life = 30;
+	float life = 30;
 
 
 	float dist3D(Vector3 start, Vector3 end);
