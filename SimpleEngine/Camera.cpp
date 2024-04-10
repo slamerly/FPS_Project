@@ -32,7 +32,7 @@ void Camera::update(float deltaTime)
 		Vector3 viewForward = Vector3::transform(owner.getForward(), q);
 
 		// Movement shake
-		cameraPos += Vector3(owner.getRight().x * cos(cpt) * 0.1f, owner.getRight().y * cos(cpt) * 0.1f, sin(cpt) * 0.33f);
+		cameraPos += Vector3(owner.getRight().x * cos(cpt) * 0.1f, owner.getRight().y * cos(cpt) * 0.25f, sin(cpt) * 0.66f);
 
 		//std::cout << cameraPos.x << ", " << cameraPos.y << ", " << cameraPos.z << std::endl;
 

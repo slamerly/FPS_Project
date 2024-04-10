@@ -45,6 +45,7 @@ private:
 	void dodge(float distBA);
 
 	// Fight
+	bool fighting = false;
 	void fight(float distR, float distL, float distM);
 	void shoot(PhysicsSystem::CollisionInfo targetInfo);
 	const float cooldownShoot = 1.f;

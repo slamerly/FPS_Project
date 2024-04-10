@@ -43,23 +43,23 @@ void Character::actorInput(const struct InputState& inputState)
 	// wasd movement
 	if (inputState.keyboard.getKeyValue(SDL_SCANCODE_W))
 	{
-		forwardSpeed += 400.0f;
+		forwardSpeed += 600.0f;
 	}
 	if (inputState.keyboard.getKeyValue(SDL_SCANCODE_S))
 	{
-		forwardSpeed -= 200.0f;
+		forwardSpeed -= 300.0f;
 	}
 	if (inputState.keyboard.getKeyValue(SDL_SCANCODE_A))
 	{
 		if (cameraComponent->getFPScam())
-			strafeSpeed -= 350.0f;
+			strafeSpeed -= 500.0f;
 		else
 			angularSpeed -= sensitiveRota;
 	}
 	if (inputState.keyboard.getKeyValue(SDL_SCANCODE_D))
 	{
 		if(cameraComponent->getFPScam())
-			strafeSpeed += 350.0f;
+			strafeSpeed += 500.0f;
 		else
 			angularSpeed += sensitiveRota;
 	}

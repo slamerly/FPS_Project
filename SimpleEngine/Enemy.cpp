@@ -20,10 +20,10 @@ Enemy::Enemy()
 	//sphere = new SphereActor();
 	//sphere->setScale(5.0f);
 
-	//sphereR = new SphereActor();
-	//sphereR->setScale(5.0f);
-	//sphereL = new SphereActor();
-	//sphereL->setScale(5.0f);
+	/*sphereR = new SphereActor();
+	sphereR->setScale(5.0f);
+	sphereL = new SphereActor();
+	sphereL->setScale(5.0f);*/
 
 	moveComponent = new MoveComponent(this);
 	moveComponent->setForwardSpeed(fowardSpeed);
@@ -67,7 +67,7 @@ void Enemy::updateActor(float dt)
 	{
 		//Character* target = dynamic_cast<Character*>(info.actor);
 		PlaneActor* mur = dynamic_cast<PlaneActor*>(info.actor);
-		if (mur && info.distance < 200)
+		if (mur && info.distance < 400)
 		{
 			//std::cout << "mur" << std::endl;
 			moveComponent->setForwardSpeed(0);
@@ -109,9 +109,9 @@ bool Enemy::newDirection()
 	Vector3 dir = getForward();
 
 	Vector3 startR = getPosition() + getRight() * 100.0f;
-	Vector3 endR = startR + getRight() * 200.0f  + dir * segmentLength;
+	Vector3 endR = startR + getRight() * 390.0f  + dir * segmentLength;
 	Vector3 startL = getPosition() + getRight() * -1.f * 100.0f;
-	Vector3 endL = startL + getRight() * -200.0f + dir * segmentLength;
+	Vector3 endL = startL + getRight() * -390.0f + dir * segmentLength;
 
 	LineSegment lR(startR, endR);
 	LineSegment lL(startL, endL);
@@ -197,11 +197,11 @@ bool Enemy::detection()
 				Character* player = dynamic_cast<Character*>(infoDetect.actor);
 				if (player)
 				{
+					fighting = true;
 					fight(distRBtP, distLBtP, distMtP);
-					/*std::cout << "Detected: " << 
-						actorDetected->getPosition().x << ", " << 
-						actorDetected->getPosition().y << ", " <<
-						actorDetected->getPosition().z << std::endl;*/
+				}
+				else {
+					fighting = false;
 				}
 				//sphere->setPosition(infoDetect.point);
 			}
@@ -216,7 +216,7 @@ bool Enemy::detection()
 			if (enemy)
 			{
 				dodge(infoDetect.distance);
-				std::cout << infoDetect.distance << std::endl;
+				//std::cout << infoDetect.distance << std::endl;
 			}
 		}
 	}
@@ -226,6 +226,7 @@ bool Enemy::detection()
 
 void Enemy::dodge(float distBA)
 {
+	/*
 	if (distBA < 500)
 	{
 		moveComponent->setStrafeSpeed(100.0f);
@@ -233,6 +234,12 @@ void Enemy::dodge(float distBA)
 	else
 	{
 		moveComponent->setStrafeSpeed(0);
+	}
+	*/
+	if ((distBA < 500 && !fighting) || distBA < 200)
+	{
+		moveComponent->setForwardSpeed(0);
+		moveComponent->setAngularSpeed(1.f);
 	}
 }
 

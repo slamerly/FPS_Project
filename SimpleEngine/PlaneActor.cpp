@@ -7,8 +7,8 @@
 PlaneActor::PlaneActor() : Actor()
 {
 	setScale(10.0f);
-	MeshComponent* mc = new MeshComponent(this);
-	Mesh* mesh = &Assets::getMesh("Mesh_Plane");
+	mc = new MeshComponent(this);
+	mesh = &Assets::getMesh("Mesh_Plane");
 	mc->setMesh(*mesh);
 	box = new BoxCollisionComponent(this);
 	box->setObjectBox(mesh->getBox());
@@ -19,4 +19,12 @@ PlaneActor::PlaneActor() : Actor()
 PlaneActor::~PlaneActor()
 {
 	getGame().removePlane(this);
+}
+
+void PlaneActor::changeMesh(Mesh* newMesh)
+{
+	mesh = newMesh;
+	mc->setMesh(*mesh);
+	box = new BoxCollisionComponent(this);
+	box->setObjectBox(mesh->getBox());
 }
