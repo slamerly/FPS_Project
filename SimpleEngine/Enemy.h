@@ -42,6 +42,11 @@ private:
 	float distMtBMax, distBtBMax;
 	PhysicsSystem::CollisionInfo infoDetect;
 
+
+	//Dodge
+	bool isSaveDir = false;
+	bool isdodging = false;
+	Vector3 saveDir;
 	void dodge(float distBA);
 
 	// Fight

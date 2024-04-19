@@ -219,6 +219,16 @@ void Game::load()
 	t = new Enemy();
 	t->setPosition(Vector3(start, startL + size * 6, 0.0f));
 	t->setRotation(Quaternion(Vector3::unitZ, -Maths::piOver2));
+
+	/*
+	t = new Enemy();
+	t->setPosition(Vector3(0.0f, 1200.0f, 0.0f));
+	t->setRotation(Quaternion(Vector3::unitZ, -Maths::piOver2));
+	t = new Enemy();
+	t->setPosition(Vector3(0.0f, -1200.0f, 0.0f));
+	t->setRotation(Quaternion(Vector3::unitZ, Maths::piOver2));
+	*/
+
 }
 
 void Game::addPlane(PlaneActor* plane)

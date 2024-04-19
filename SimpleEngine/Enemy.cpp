@@ -85,7 +85,7 @@ void Enemy::updateActor(float dt)
 		//sphere->setPosition(info.point);
 	}
 
-	if (sensChoiced)
+	if (sensChoiced && !isdodging)
 	{
 		if (newDirection())
 		{
@@ -215,10 +215,20 @@ bool Enemy::detection()
 			Enemy* enemy = dynamic_cast<Enemy*>(infoDetect.actor);
 			if (enemy)
 			{
-				dodge(infoDetect.distance);
-				//std::cout << infoDetect.distance << std::endl;
+				if ((infoDetect.distance < 500 && !fighting) || infoDetect.distance < 200)
+					isdodging = true;
 			}
 		}
+	}
+	// Dodging
+	if (isdodging)
+	{
+		if (!isSaveDir)
+		{
+			saveDir = getForward();
+			isSaveDir = true;
+		}
+		dodge(infoDetect.distance);
 	}
 
 	return false;
@@ -226,17 +236,15 @@ bool Enemy::detection()
 
 void Enemy::dodge(float distBA)
 {
-	/*
-	if (distBA < 500)
+	if ((round(getForward().x * 100) >= round(-saveDir.x * 100 - 5)) && (round(getForward().x * 100) <= round(-saveDir.x * 100 + 5))
+		&& (round(getForward().y * 100) >= round(-saveDir.y * 100 - 5)) && (round(getForward().y * 100) <= round(-saveDir.y * 100 + 5)))
 	{
-		moveComponent->setStrafeSpeed(100.0f);
+		moveComponent->setForwardSpeed(fowardSpeed);
+		moveComponent->setAngularSpeed(0.f);
+		isdodging = false;
+		isSaveDir = false;
 	}
 	else
-	{
-		moveComponent->setStrafeSpeed(0);
-	}
-	*/
-	if ((distBA < 500 && !fighting) || distBA < 200)
 	{
 		moveComponent->setForwardSpeed(0);
 		moveComponent->setAngularSpeed(1.f);
