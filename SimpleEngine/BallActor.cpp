@@ -1,5 +1,4 @@
 #include "BallActor.h"
-#include "MeshComponent.h"
 #include "Assets.h"
 #include "MoveComponent.h"
 #include "LineSegment.h"
@@ -10,7 +9,7 @@
 
 BallActor::BallActor(float pDmg) : Actor(), lifetimeSpan(2.0f), ballMove(nullptr), dmg(pDmg)
 {
-	MeshComponent* mc = new MeshComponent(this);
+	mc = new MeshComponent(this);
 	mc->setMesh(Assets::getMesh("Mesh_Sphere"));
 
 	setScale(0.5f);

@@ -347,5 +347,11 @@
     <None Include="Res\Shaders\Phong.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="Res\Shaders\LineTrace.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Res\Shaders\LineTrace.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -1,5 +1,4 @@
 #include "Enemy.h"
-#include "MeshComponent.h"
 #include "Assets.h"
 #include "BoxCollisionComponent.h"
 #include "LineSegment.h"
@@ -11,7 +10,7 @@ Enemy::Enemy()
 {
 	setRotation(Quaternion(Vector3::unitZ, Maths::pi));
 
-	MeshComponent* mc = new MeshComponent(this);
+	mc = new MeshComponent(this);
 	mc->setMesh(Assets::getMesh("Mesh_Lemon"));
 
 	BoxCollisionComponent* bc = new BoxCollisionComponent(this);
@@ -20,10 +19,12 @@ Enemy::Enemy()
 	//sphere = new SphereActor();
 	//sphere->setScale(5.0f);
 
-	/*sphereR = new SphereActor();
+	sphereR = new SphereActor();
 	sphereR->setScale(5.0f);
+	sphereR->getMeshComponent()->setTextureIndex(3);
 	sphereL = new SphereActor();
-	sphereL->setScale(5.0f);*/
+	sphereL->setScale(5.0f);
+	sphereL->getMeshComponent()->setTextureIndex(3);
 
 	moveComponent = new MoveComponent(this);
 	moveComponent->setForwardSpeed(fowardSpeed);
@@ -36,12 +37,31 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
+	//sphere->setState(Actor::ActorState::Dead);
+	sphereR->setState(Actor::ActorState::Dead);
+	sphereL->setState(Actor::ActorState::Dead);
 	getGame().removeMovableActor(this);
 }
 
 void Enemy::setLife(int dm)
 {
 	life -= dm;
+
+	takingDamage = true;
+	fowardSpeed /= 2;
+	moveComponent->setForwardSpeed(fowardSpeed);
+	std::cout << "speed: " << saveSpeed << std::endl;
+
+	saveSpeedTurn = moveComponent->getAngularSpeed();
+	if (moveComponent->getAngularSpeed() == -1 || moveComponent->getAngularSpeed() == 1)
+	{
+		moveComponent->setAngularSpeed(0.5f);
+	}
+
+	mc->setTextureIndex(1);
+
+	currentTimeSlow = timeSlow;
+	
 	if (life <= 0)
 	{
 		setState(ActorState::Dead);
@@ -51,6 +71,7 @@ void Enemy::setLife(int dm)
 void Enemy::updateActor(float dt)
 {
 	currentCooldownShoot -= dt;
+	currentTimeSlow -= dt;
 	Vector3 start = getPosition() + getForward() * 100.0f;
 	Vector3 dir = getForward();
 	Vector3 end = start + dir * segmentLength;
@@ -98,9 +119,11 @@ void Enemy::updateActor(float dt)
 	}
 	else
 	{
-		detection();
+		//sphereL->setPosition(Vector3(0, 0, -1500));
+		//sphereR->setPosition(Vector3(0, 0, -1500));
 	}
 	//std::cout << newDirection() << std:: endl;
+	animation();
 }
 
 bool Enemy::newDirection()
@@ -125,10 +148,13 @@ bool Enemy::newDirection()
 			Rclear = false;
 		}
 
-		//sphereR->setPosition(infoR.point);
+		sphereR->setPosition(infoR.point);
+		sphereR->getMeshComponent()->setTextureIndex(3);
 	}
 	else
 	{
+		sphereR->setPosition(endR);
+		sphereR->getMeshComponent()->setTextureIndex(4);
 		Rclear = true;
 	}
 
@@ -141,10 +167,13 @@ bool Enemy::newDirection()
 			Lclear = false;
 		}
 
-		//sphereL->setPosition(infoL.point);
+		sphereL->setPosition(infoL.point);
+		sphereL->getMeshComponent()->setTextureIndex(3);
 	}
 	else
 	{
+		sphereL->setPosition(endL);
+		sphereL->getMeshComponent()->setTextureIndex(4);
 		Lclear = true;
 	}
 
@@ -192,21 +221,38 @@ bool Enemy::detection()
 
 			if (distRBtP < distBtBMax && distLBtP < distBtBMax && distMtP < distMtBMax)
 			{
-
+				/*
 				// Player
 				Character* player = dynamic_cast<Character*>(infoDetect.actor);
 				if (player)
 				{
+					if (takingDamage)
+					{
+						mc->setTextureIndex(1);
+					}
+					else
+					{
+						mc->setTextureIndex(2);
+					}
+					
 					fighting = true;
 					fight(distRBtP, distLBtP, distMtP);
 				}
-				else {
-					fighting = false;
-				}
-				//sphere->setPosition(infoDetect.point);
+				*/
 			}
 			else
 			{
+				fighting = false;
+
+				if (takingDamage)
+				{
+					mc->setTextureIndex(1);
+				}
+				else
+				{
+					mc->setTextureIndex(0);
+				}
+
 				moveComponent->setAngularSpeed(0);
 				moveComponent->setForwardSpeed(fowardSpeed);
 			}
@@ -232,6 +278,25 @@ bool Enemy::detection()
 	}
 
 	return false;
+}
+
+void Enemy::animation()
+{
+	// --- Slow move ---
+	if (currentTimeSlow <= 0 && takingDamage)
+	{
+		if (saveSpeedTurn != 0)
+		{
+			moveComponent->setAngularSpeed(saveSpeedTurn);
+		}
+		else
+		{
+			fowardSpeed = 300.0f;
+			moveComponent->setForwardSpeed(fowardSpeed);
+		}
+		mc->setTextureIndex(0);
+		takingDamage = false;
+	}
 }
 
 void Enemy::dodge(float distBA)
@@ -294,6 +359,7 @@ void Enemy::shoot(PhysicsSystem::CollisionInfo targetInfo)
 	dir.normalize();
 	// Spawn a ball
 	BallActor* ball = new BallActor(0);
+	ball->getMeshComponent()->setTextureIndex(2);
 	ball->setPlayer(this);
 	ball->setPosition(start + dir * 20.0f);
 	// Rotate the ball to face new direction

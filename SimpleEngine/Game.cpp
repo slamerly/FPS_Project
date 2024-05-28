@@ -33,6 +33,12 @@ void Game::load()
 	Assets::loadTexture(renderer, "Res\\Textures\\ak74.png", "ak74");
 	Assets::loadTexture(renderer, "Res\\Textures\\lm.png", "lm");
 	Assets::loadTexture(renderer, "Res\\Textures\\Wood.png", "Wood");
+	Assets::loadTexture(renderer, "Res\\Textures\\PlayerBall.png", "PlayerBall");
+	Assets::loadTexture(renderer, "Res\\Textures\\EnemyBall.png", "EnemyBall");
+	Assets::loadTexture(renderer, "Res\\Textures\\lmDmg.png", "lmDmg");
+	Assets::loadTexture(renderer, "Res\\Textures\\lmTrig.png", "lmTrig");
+	Assets::loadTexture(renderer, "Res\\Textures\\Col.png", "Col");
+	Assets::loadTexture(renderer, "Res\\Textures\\NoCol.png", "NoCol");
 
 	Assets::loadMesh("Res\\Meshes\\Cube.gpmesh", "Mesh_Cube");
 	Assets::loadMesh("Res\\Meshes\\Plane.gpmesh", "Mesh_Plane");

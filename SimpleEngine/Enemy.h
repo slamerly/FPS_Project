@@ -2,6 +2,7 @@
 #include "Actor.h"
 #include "SphereActor.h"
 #include "PhysicsSystem.h"
+#include "MeshComponent.h"
 
 class Enemy : public Actor
 {
@@ -19,7 +20,9 @@ private:
 	SphereActor* sphereR;
 	SphereActor* sphereL;
 	class MoveComponent* moveComponent;
+	MeshComponent* mc;
 
+	// voir aussi animation
 	float fowardSpeed = 300.0f;
 
 	// Rotation
@@ -42,6 +45,8 @@ private:
 	float distMtBMax, distBtBMax;
 	PhysicsSystem::CollisionInfo infoDetect;
 
+	void animation();
+
 
 	//Dodge
 	bool isSaveDir = false;
@@ -58,6 +63,11 @@ private:
 
 	// Life
 	float life = 30;
+	bool takingDamage = false;
+	const float timeSlow = 0.25f;
+	float currentTimeSlow = .0f;
+	float saveSpeedTurn = 0;
+	float saveSpeed = 0;
 
 
 	float dist3D(Vector3 start, Vector3 end);

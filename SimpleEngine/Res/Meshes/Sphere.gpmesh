@@ -3,7 +3,7 @@
 	"vertexformat": "PosNormTex",
 	"shader": "Phong",
 	"textures": [
-		"Sphere"
+		"Sphere", "PlayerBall", "EnemyBall", "Col", "NoCol"
 	],
 	"specularPower": 10.0,
 	"vertices": [

@@ -123,7 +123,7 @@ void RendererOGL::drawMeshes()
 {
 	// Enable depth buffering/disable alpha blend
 	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);
+	//glDisable(GL_BLEND);
 	Shader& shader = Assets::getShader("Phong");
 	shader.use();
 	// Update view-projection matrix
