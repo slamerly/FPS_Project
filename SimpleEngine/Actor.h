@@ -31,6 +31,7 @@ public:
 
 	void setPosition(Vector3 positionP);
 	void setScale(float scaleP);
+	void setScale(Vector3 scaleP);
 	void setRotation(Quaternion rotationP);
 	void setState(ActorState stateP);
 	void setAngle(const Vector3& axis, float angle);
@@ -49,6 +50,9 @@ public:
 	void addComponent(Component* component);
 	void removeComponent(Component* component);
 
+	// Specific
+	const Vector3 getScaleV3() const { return scaleV3; }
+
 private:
 	Game& game;
 	ActorState state;
@@ -57,6 +61,10 @@ private:
 	Quaternion rotation;
 	Matrix4 worldTransform;
 	bool mustRecomputeWorldTransform;
+
+	// Specific
+	Vector3 scaleV3;
+	bool scaleIsVector = false;
 
 	vector<Component*> components;
 };

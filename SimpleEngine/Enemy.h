@@ -34,9 +34,6 @@ private:
 	int sens = 0;
 	bool sensChoiced = false;
 
-	//Vector3 startR, startL, endR, endL;
-	//PhysicsSystem::CollisionInfo info, infoR, infoL, infoDetect;
-
 	// Detection system
 	bool detection();
 	Actor* actorDetected = nullptr;
@@ -45,10 +42,10 @@ private:
 	float distMtBMax, distBtBMax;
 	PhysicsSystem::CollisionInfo infoDetect;
 
-	void animation();
+	void animation(float dt);
 
 
-	//Dodge
+	// Dodge
 	bool isSaveDir = false;
 	bool isdodging = false;
 	Vector3 saveDir;
@@ -68,6 +65,18 @@ private:
 	float currentTimeSlow = .0f;
 	float saveSpeedTurn = 0;
 	float saveSpeed = 0;
+	bool isDead = false;
+
+	// Animation
+	bool topHeight = false;
+	bool topBig = false;
+	bool topFinal = false;
+
+	// Debug
+	//Vector3 startR, startL, endR, endL;
+	//PhysicsSystem::CollisionInfo infoR, infoL;
+	//bool segCastR = false;
+	//bool segCastL = false;
 
 
 	float dist3D(Vector3 start, Vector3 end);

@@ -10,6 +10,7 @@ Actor::Actor() :
 	scale(1.0f),
 	rotation(Quaternion::identity),
 	mustRecomputeWorldTransform(true),
+	scaleV3(Vector3(1.0f, 1.0f, 1.0f)),
 	game(Game::instance())
 {
 	game.addActor(this);
@@ -35,6 +36,14 @@ void Actor::setPosition(Vector3 positionP)
 void Actor::setScale(float scaleP)
 {
 	scale = scaleP;
+	scaleV3 = Vector3(scaleP, scaleP, scaleP);
+	mustRecomputeWorldTransform = true;
+}
+
+void Actor::setScale(Vector3 scaleP)
+{
+	scaleV3 = scaleP;
+	scaleIsVector = true;
 	mustRecomputeWorldTransform = true;
 }
 
@@ -70,7 +79,14 @@ void Actor::computeWorldTransform()
 	if (mustRecomputeWorldTransform)
 	{
 		mustRecomputeWorldTransform = false;
-		worldTransform = Matrix4::createScale(scale);
+		if (scaleIsVector)
+		{
+			worldTransform = Matrix4::createScale(scaleV3);
+			scaleIsVector = false;
+		}
+		else
+			worldTransform = Matrix4::createScale(scale);
+
 		worldTransform *= Matrix4::createFromQuaternion(rotation);
 		worldTransform *= Matrix4::createTranslation(position);
 

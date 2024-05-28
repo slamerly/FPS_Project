@@ -18,13 +18,14 @@ Enemy::Enemy()
 
 	//sphere = new SphereActor();
 	//sphere->setScale(5.0f);
-
+	/*
 	sphereR = new SphereActor();
 	sphereR->setScale(5.0f);
 	sphereR->getMeshComponent()->setTextureIndex(3);
 	sphereL = new SphereActor();
 	sphereL->setScale(5.0f);
 	sphereL->getMeshComponent()->setTextureIndex(3);
+	*/
 
 	moveComponent = new MoveComponent(this);
 	moveComponent->setForwardSpeed(fowardSpeed);
@@ -38,33 +39,36 @@ Enemy::Enemy()
 Enemy::~Enemy()
 {
 	//sphere->setState(Actor::ActorState::Dead);
-	sphereR->setState(Actor::ActorState::Dead);
-	sphereL->setState(Actor::ActorState::Dead);
+	//sphereR->setState(Actor::ActorState::Dead);
+	//sphereL->setState(Actor::ActorState::Dead);
 	getGame().removeMovableActor(this);
 }
 
 void Enemy::setLife(int dm)
 {
-	life -= dm;
-
-	takingDamage = true;
-	fowardSpeed /= 2;
-	moveComponent->setForwardSpeed(fowardSpeed);
-	std::cout << "speed: " << saveSpeed << std::endl;
-
-	saveSpeedTurn = moveComponent->getAngularSpeed();
-	if (moveComponent->getAngularSpeed() == -1 || moveComponent->getAngularSpeed() == 1)
+	if (!isDead)
 	{
-		moveComponent->setAngularSpeed(0.5f);
+		life -= dm;
+
+		takingDamage = true;
+		fowardSpeed /= 2;
+		moveComponent->setForwardSpeed(fowardSpeed);
+
+		saveSpeedTurn = moveComponent->getAngularSpeed();
+		if (moveComponent->getAngularSpeed() == -1 || moveComponent->getAngularSpeed() == 1)
+		{
+			moveComponent->setAngularSpeed(0.5f);
+		}
+
+		mc->setTextureIndex(1);
+
+		currentTimeSlow = timeSlow;
 	}
-
-	mc->setTextureIndex(1);
-
-	currentTimeSlow = timeSlow;
 	
 	if (life <= 0)
 	{
-		setState(ActorState::Dead);
+		isDead = true;
+		//setState(ActorState::Dead);
 	}
 }
 
@@ -106,6 +110,43 @@ void Enemy::updateActor(float dt)
 		//sphere->setPosition(info.point);
 	}
 
+	// --- Debug ---
+	/*
+	startR = getPosition() + getRight() * 100.0f;
+	endR = startR + getRight() * 390.0f + getForward() * segmentLength;
+	startL = getPosition() + getRight() * -1.f * 100.0f;
+	endL = startL + getRight() * -390.0f + getForward() * segmentLength;
+
+	LineSegment lR(startR, endR);
+	LineSegment lL(startL, endL);
+
+	segCastR = getGame().getPhysicsSystem().segmentCast(lR, infoR);
+	segCastL = getGame().getPhysicsSystem().segmentCast(lL, infoL);
+	
+	if (segCastR && infoR.actor != this)
+	{
+		sphereR->setPosition(infoR.point);
+		sphereR->getMeshComponent()->setTextureIndex(3);
+	}
+	else
+	{
+		sphereR->setPosition(endR);
+		sphereR->getMeshComponent()->setTextureIndex(4);
+	}
+
+	if (segCastL && infoL.actor != this)
+	{
+		sphereL->setPosition(infoL.point);
+		sphereL->getMeshComponent()->setTextureIndex(3);
+	}
+	else
+	{
+		sphereL->setPosition(endL);
+		sphereL->getMeshComponent()->setTextureIndex(4);
+	}
+	*/
+	// --- End Debug ---
+
 	if (sensChoiced && !isdodging)
 	{
 		if (newDirection())
@@ -119,22 +160,24 @@ void Enemy::updateActor(float dt)
 	}
 	else
 	{
+		if(!isDead)
+			detection();
 		//sphereL->setPosition(Vector3(0, 0, -1500));
 		//sphereR->setPosition(Vector3(0, 0, -1500));
 	}
 	//std::cout << newDirection() << std:: endl;
-	animation();
+	animation(dt);
 }
 
 bool Enemy::newDirection()
 {
-	const float segmentLength = 1000.0f;
-	Vector3 dir = getForward();
+	//const float segmentLength = 1000.0f;
+	//Vector3 dirD = getForward();
 
 	Vector3 startR = getPosition() + getRight() * 100.0f;
-	Vector3 endR = startR + getRight() * 390.0f  + dir * segmentLength;
+	Vector3 endR = startR + getRight() * 390.0f  + getForward() * segmentLength;
 	Vector3 startL = getPosition() + getRight() * -1.f * 100.0f;
-	Vector3 endL = startL + getRight() * -390.0f + dir * segmentLength;
+	Vector3 endL = startL + getRight() * -390.0f + getForward() * segmentLength;
 
 	LineSegment lR(startR, endR);
 	LineSegment lL(startL, endL);
@@ -148,13 +191,13 @@ bool Enemy::newDirection()
 			Rclear = false;
 		}
 
-		sphereR->setPosition(infoR.point);
-		sphereR->getMeshComponent()->setTextureIndex(3);
+		//sphereR->setPosition(infoR.point);
+		//sphereR->getMeshComponent()->setTextureIndex(3);
 	}
 	else
 	{
-		sphereR->setPosition(endR);
-		sphereR->getMeshComponent()->setTextureIndex(4);
+		//sphereR->setPosition(endR);
+		//sphereR->getMeshComponent()->setTextureIndex(4);
 		Rclear = true;
 	}
 
@@ -167,13 +210,13 @@ bool Enemy::newDirection()
 			Lclear = false;
 		}
 
-		sphereL->setPosition(infoL.point);
-		sphereL->getMeshComponent()->setTextureIndex(3);
+		//sphereL->setPosition(infoL.point);
+		//sphereL->getMeshComponent()->setTextureIndex(3);
 	}
 	else
 	{
-		sphereL->setPosition(endL);
-		sphereL->getMeshComponent()->setTextureIndex(4);
+		//sphereL->setPosition(endL);
+		//sphereL->getMeshComponent()->setTextureIndex(4);
 		Lclear = true;
 	}
 
@@ -221,7 +264,7 @@ bool Enemy::detection()
 
 			if (distRBtP < distBtBMax && distLBtP < distBtBMax && distMtP < distMtBMax)
 			{
-				/*
+				
 				// Player
 				Character* player = dynamic_cast<Character*>(infoDetect.actor);
 				if (player)
@@ -238,7 +281,7 @@ bool Enemy::detection()
 					fighting = true;
 					fight(distRBtP, distLBtP, distMtP);
 				}
-				*/
+				
 			}
 			else
 			{
@@ -280,7 +323,7 @@ bool Enemy::detection()
 	return false;
 }
 
-void Enemy::animation()
+void Enemy::animation(float dt)
 {
 	// --- Slow move ---
 	if (currentTimeSlow <= 0 && takingDamage)
@@ -296,6 +339,54 @@ void Enemy::animation()
 		}
 		mc->setTextureIndex(0);
 		takingDamage = false;
+	}
+
+	// --- Death ---
+	if (isDead)
+	{
+		mc->setTextureIndex(1);
+		moveComponent->setForwardSpeed(0);
+		moveComponent->setAngularSpeed(0);
+
+		if (getScaleV3().z < 1.5f && !topHeight && !topFinal)
+		{
+			setScale(Vector3(getScaleV3().x, getScaleV3().y, getScaleV3().z + dt));
+			if (getScaleV3().z > 1.12f)
+			{
+				topBig = true;
+			}
+		}
+		else
+		{
+			topHeight = true;
+		}
+
+		if (getScaleV3().x < 2.f && topBig && !topFinal)
+		{
+			setScale(Vector3(getScaleV3().x + dt, getScaleV3().y + dt, getScaleV3().z));			
+		}
+
+		if (topHeight && getScaleV3().z > 0.75f && !topFinal)
+		{
+			setScale(Vector3(getScaleV3().x, getScaleV3().y, getScaleV3().z - dt));
+		}
+
+		if (getScaleV3().z <= 0.75f)
+		{
+			topFinal = true;
+		}
+
+		if (topFinal)
+		{
+			if (getScaleV3().x > 0 || getScaleV3().y > 0 || getScaleV3().z > 0)
+			{
+				setScale(Vector3(getScaleV3().x - (dt * 2.66f), getScaleV3().y - (dt * 2.66f), getScaleV3().z - dt));
+			}
+			else
+			{
+				setState(ActorState::Dead);
+			}
+		}
 	}
 }
 
